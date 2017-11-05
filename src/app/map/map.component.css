@@ -1,0 +1,6 @@
+agm-map {
+    height: 90vh;
+  }
+#map {
+    min-height: 90vh;
+}
