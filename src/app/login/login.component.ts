@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Login } from './login';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -9,17 +12,25 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  result: string[];
-  constructor(private http: HttpClient) {
+  model: Login;
+  result;
+  constructor(private http: HttpClient, private _router: Router) {
+      this.model = new Login('', '');
   }
 
   ngOnInit() {
   }
 
-  osSubmit(f: NgForm) {
-    this.http.get(environment.serverEndpoint + '/login').subscribe(data => {
-      this.result = data['results'];
-      console.log('login response');
+  onSubmit() {
+    console.log('url: ' + environment.serverEndpoint + '/login');
+    const h = new HttpHeaders().set('Authorization', 'Basic ' + btoa(this.model.username + ':' + this.model.password));
+    this.http.post(environment.serverEndpoint + '/login', this.model, {headers: h})
+    .subscribe(data => {
+            this.result = data;
+      this.result = JSON.stringify(this.result);
     });
+  }
+  home() {
+      this._router.navigate(['']);
   }
 }
