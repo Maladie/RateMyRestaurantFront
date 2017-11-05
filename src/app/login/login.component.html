@@ -1,13 +1,23 @@
-<div class="container">
-  <form (ngSubmit)="onSubmit(login)" #loginForm="ngForm" class="col-md-3">
+<div class="container justify-content-center">
+  <div class="row" style="margin-top:100px">
+  <div class="col-xs-6 col-xs-offset-3">
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="col-md-3">
     <div class="form-group">
       <label for="username">Username:</label>
       <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username">
     </div>
     <div class="form-group">
-      <label for="pass">Password:</label>
-      <input type="text" class="form-control" id="pass" [(ngModel)]="model.pass" name="pass">
+      <label for="password">Password:</label>
+      <input type="text" class="form-control" id="password" [(ngModel)]="model.password" name="password">
     </div>
     <input type="submit" class="btn" value="Login">
   </form>
+</div>
+</div>
+<div class="text-center">
+  {{result}}
+</div>
+  <div class="centered">
+    <button class="btn btn-success" value="To Home" (click)=home()>To Home</button>
+  </div>
 </div>
