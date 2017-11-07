@@ -22,4 +22,8 @@ export class HomeComponent implements OnInit {
   map() {
       this._route.navigate(['/map']);
   }
+
+  register() {
+      this._route.navigate(['/register']);
+  }
 }

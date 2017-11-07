@@ -23,8 +23,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     console.log('url: ' + environment.serverEndpoint + '/login');
-    const h = new HttpHeaders().set('Authorization', 'Basic ' + btoa(this.model.username + ':' + this.model.password));
-    this.http.post(environment.serverEndpoint + '/login', this.model, {headers: h})
+    const h = new HttpHeaders().append('Authorization', 'Basic ' + btoa(this.model.username + ':' + this.model.password))
+    .append('Content-Type', 'application/json');
+    this.http.post(environment.serverEndpoint + '/api/login', this.model, {headers: h, withCredentials: true})
     .subscribe(data => {
             this.result = data;
       this.result = JSON.stringify(this.result);

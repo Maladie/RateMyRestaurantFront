@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { MapComponent } from './map/map.component';
 import { AgmCoreModule } from '@agm/core';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,9 @@ import { AgmCoreModule } from '@agm/core';
     LoginComponent,
     HomeComponent,
     MapComponent
-  ],
+,
+    RegisterComponent
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -30,7 +33,8 @@ import { AgmCoreModule } from '@agm/core';
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'map', component: MapComponent }]),
+      { path: 'map', component: MapComponent },
+      { path: 'register', component: RegisterComponent }]),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAULrtLKbtbVG5vBESqFyJTqE0F_Ykb7xs'
     })
