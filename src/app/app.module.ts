@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { MapComponent } from './map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { RegisterComponent } from './register/register.component';
+import { TokenInterceptor } from './token.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,9 +23,9 @@ import { RegisterComponent } from './register/register.component';
     LoginComponent,
     HomeComponent,
     MapComponent
-,
+    ,
     RegisterComponent
-],
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -39,7 +40,13 @@ import { RegisterComponent } from './register/register.component';
       apiKey: 'AIzaSyAULrtLKbtbVG5vBESqFyJTqE0F_Ykb7xs'
     })
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+

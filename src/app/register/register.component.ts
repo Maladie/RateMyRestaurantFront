@@ -18,10 +18,10 @@ model = new Login('', '');
   }
   onSubmit() {
     console.log('url: ' + environment.serverEndpoint + '/register');
-    const h = new HttpHeaders().append('Authorization', 'Basic ' + btoa(this.model.username + ':' + this.model.password));
-    const body = new HttpParams();
-    body.append('username', this.model.username).append('password', this.model.password);
-    this.http.post(environment.serverEndpoint + '/register', body, {headers: h, withCredentials: true})
+    const h = new HttpHeaders().append('Authorization', 'Basic ' + btoa(this.model.username + ':' + this.model.password))
+    ;
+    const body = new HttpParams().append('username', this.model.username).append('password', this.model.password);
+    this.http.post(environment.serverEndpoint + '/register', this.model, {headers: h, withCredentials: true})
     .subscribe(data => {
             this.result = data;
       this.result = JSON.stringify(this.result);

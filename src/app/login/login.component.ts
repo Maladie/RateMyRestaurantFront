@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Login } from './login';
 import { Router } from '@angular/router';
+import { ResponseInfo } from '../responseinfo';
 
 
 @Component({
@@ -14,6 +15,10 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   model: Login;
   result;
+  headers: string[];
+  errors;
+  response;
+  test;
   constructor(private http: HttpClient, private _router: Router) {
       this.model = new Login('', '');
   }
@@ -25,13 +30,27 @@ export class LoginComponent implements OnInit {
     console.log('url: ' + environment.serverEndpoint + '/login');
     const h = new HttpHeaders().append('Authorization', 'Basic ' + btoa(this.model.username + ':' + this.model.password))
     .append('Content-Type', 'application/json');
-    this.http.post(environment.serverEndpoint + '/api/login', this.model, {headers: h, withCredentials: true})
-    .subscribe(data => {
-            this.result = data;
-      this.result = JSON.stringify(this.result);
+    this.http
+    .post<ResponseInfo>(environment.serverEndpoint + '/api/login', this.model, {headers: h, observe: 'response', withCredentials: true})
+    .subscribe(resp => {
+      this.headers = resp.headers.getAll('set-cookie');
+      console.log(JSON.stringify(this.headers));
+      // this.result = JSON.stringify(resp.body);
+      // this.response = JSON.stringify(resp);
+        // localStorage.setItem('token',.get('X-XSRF-TOKEN'));
+    }, err => {
+      console.log(err);
+      this.errors = JSON.stringify(err);
     });
   }
   home() {
       this._router.navigate(['']);
+  }
+  testClick() {
+    this.http.get(environment.serverEndpoint + '/api/test').subscribe(resp => {
+      this.test = JSON.stringify(resp);
+    }, err => {
+      this.test = JSON.stringify(err);
+    });
   }
 }

@@ -15,9 +15,13 @@
 </div>
 </div>
 <div class="text-center">
-  {{result}}
+  <textarea>
+ <p>result: {{result}}</p> <br><br><p>h: {{headers}}</p><p>response: {{response}}</p>
+</textarea>
 </div>
   <div class="centered">
     <button class="btn btn-success" value="To Home" (click)=home()>To Home</button>
+    <button (click)=testClick() class="btn btn-failed">Test</button> <br>
+    <textarea>{{test}}</textarea>
   </div>
 </div>
