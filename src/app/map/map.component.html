@@ -6,11 +6,17 @@
   <button class="btn btn-success" (click)=home()>To Home</button>
 </div>
 <div class="col-xs-10 col-xs-offset-1" id="map">
+  <button class="bnt" (click)="findPlaces()">Find places</button>
   Lat: {{lat}} Lng: {{lng}} radius: {{radius}}
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
     <agm-marker [(latitude)]="lat" [(longitude)]="lng" [markerDraggable]=true (dragEnd)= "onDrag($event)"></agm-marker>
     <agm-circle [(latitude)]="lat" [(longitude)]="lng" [(radius)]="radius" (dragEnd)= "onDrag($event)" [fillColor]="'lime'" [circleDraggable]="true"
       [editable]="true" [fillOpacity]="0.3">
     </agm-circle>
+    
+    <div *ngFor="let place of places">
+      {{place.location.lat}} {{place.location.lng}}
+      <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng"></agm-marker> 
+      </div>
   </agm-map>
 </div>
