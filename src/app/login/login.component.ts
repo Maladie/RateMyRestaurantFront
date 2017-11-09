@@ -33,9 +33,10 @@ export class LoginComponent implements OnInit {
     this.http
     .post<ResponseInfo>(environment.serverEndpoint + '/api/login', this.model, {headers: h, observe: 'response', withCredentials: true})
     .subscribe(resp => {
-      this.headers = resp.headers.getAll('set-cookie');
-      console.log(JSON.stringify(this.headers));
-      // this.result = JSON.stringify(resp.body);
+      this.headers = resp.headers.getAll('Set-Cookie');
+      this.test = JSON.stringify(resp.headers.get('X-XSRF-TOKEN'));
+      this.result = JSON.stringify(resp.body);
+      console.log(JSON.stringify(document.cookie));
       // this.response = JSON.stringify(resp);
         // localStorage.setItem('token',.get('X-XSRF-TOKEN'));
     }, err => {
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit {
       this._router.navigate(['']);
   }
   testClick() {
-    this.http.get(environment.serverEndpoint + '/api/test').subscribe(resp => {
+    this.http.get(environment.serverEndpoint + '/api/test', {withCredentials: true}).subscribe(resp => {
       this.test = JSON.stringify(resp);
     }, err => {
       this.test = JSON.stringify(err);
