@@ -6,7 +6,7 @@
     <h1>{{ title }}</h1>
   <button class="btn btn-success" (click)=home()>To Home</button>
   <button class="btn" (click)="findPlaces()">Find places</button>
-  Lat: {{lat}} Lng: {{lng}} radius: {{radius}}
+  Lat: {{lat}} Lng: {{lng}} radius: {{radius}} <br> Additional Info: {{placeDetails.id}}, {{placeDetails.name}}, newlyCreated:{{placeDetails.newlyCreated}}
 </div>
 <div class="col-xs-12" id="map" style="margin-top:10px">
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
@@ -24,7 +24,12 @@
     <div *ngFor="let place of places; let i= index">
       <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} [markerClickable]=true (markerClick)="onMarkerClick($event, i, infoWindow)"
         (mouseOver)="onMouserOverMarker($event, infoWindow)" (mouseOut)="onMouseOutMarker($event, infoWindow)">
-        <agm-info-window #infoWindow>{{getInfo(i)}}</agm-info-window>
+        <agm-snazzy-info-window [maxWidth]=300 [isOpen]="false" [closeWhenOthersOpen]="true">
+        <ng-template>
+         {{getInfo(i)}} <br>
+         <button class="btn" (click)="getAdditionalInfo(i)">Additional Info</button>
+        </ng-template>
+      </agm-snazzy-info-window>
       </agm-marker>
     </div>
 
