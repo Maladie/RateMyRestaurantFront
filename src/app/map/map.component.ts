@@ -5,6 +5,7 @@ import { MouseEvent as Coords } from '@agm/core/map-types';
 import { environment } from '../../environments/environment';
 import { PlacePin } from './placePin';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { PlaceDetails } from './placeDetails';
 
 @Component({
   selector: 'app-map',
@@ -22,6 +23,7 @@ export class MapComponent implements OnInit {
   zoom = 17;
   @Input() radius = 150;
   places: PlacePin[];
+  placeDetails: PlaceDetails = new PlaceDetails;
   lastOpen: InfoWindow;
   constructor(private _router: Router, private _http: HttpClient) { }
 
@@ -71,5 +73,15 @@ export class MapComponent implements OnInit {
       window.close();
       console.log(window);
     }
+  }
+  getAdditionalInfo(i: number) {
+    const placeId = this.places[i].id;
+    this._http.get(environment.serverEndpoint + '/places/' + placeId + '/details').subscribe(
+      response => {
+        this.placeDetails = response as PlaceDetails;
+        console.log('Response' + this.placeDetails);
+      }, err => {
+        console.log('Error: ' + JSON.stringify(err));
+      });
   }
 }
