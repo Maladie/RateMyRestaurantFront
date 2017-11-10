@@ -14,6 +14,8 @@ import { MapComponent } from './map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { RegisterComponent } from './register/register.component';
 import { TokenInterceptor } from './token.interceptor';
+import { CustommarkerComponent } from './map/custommarker/custommarker.component';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
 @NgModule({
   declarations: [
@@ -22,15 +24,16 @@ import { TokenInterceptor } from './token.interceptor';
     SearchformComponent,
     LoginComponent,
     HomeComponent,
-    MapComponent
-    ,
-    RegisterComponent
+    MapComponent,
+    RegisterComponent,
+    CustommarkerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    AgmSnazzyInfoWindowModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },

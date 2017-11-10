@@ -1,22 +1,33 @@
-<h1>{{ title }}</h1>
+
 
 <!-- this creates a google map on the page with the given lat/lng from -->
 <!-- the component as the initial center of the map: -->
-<div>
+<div class="col-xs-12" >
+    <h1>{{ title }}</h1>
   <button class="btn btn-success" (click)=home()>To Home</button>
-</div>
-<div class="col-xs-10 col-xs-offset-1" id="map">
-  <button class="bnt" (click)="findPlaces()">Find places</button>
+  <button class="btn" (click)="findPlaces()">Find places</button>
   Lat: {{lat}} Lng: {{lng}} radius: {{radius}}
+</div>
+<div class="col-xs-12" id="map" style="margin-top:10px">
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-    <agm-marker [(latitude)]="lat" [(longitude)]="lng" [markerDraggable]=true (dragEnd)= "onDrag($event)"></agm-marker>
-    <agm-circle [(latitude)]="lat" [(longitude)]="lng" [(radius)]="radius" (dragEnd)= "onDrag($event)" [fillColor]="'lime'" [circleDraggable]="true"
-      [editable]="true" [fillOpacity]="0.3">
+    <agm-marker [(latitude)]="lat" [(longitude)]="lng" [(label)]="label" [markerDraggable]=true (dragEnd)="onDrag($event)">
+      <agm-snazzy-info-window [maxWidth]=300 [isOpen]="true" [closeWhenOthersOpen]="true">
+        <ng-template>
+          Are you here?
+          <br> Drag pin to your location ;)
+        </ng-template>
+      </agm-snazzy-info-window>
+    </agm-marker>
+    <agm-circle [(latitude)]="lat" [(longitude)]="lng" [(radius)]="radius" (dragEnd)="onDrag($event)" [fillColor]="'lime'" [editable]="true"
+      [fillOpacity]="0.3">
     </agm-circle>
-    
-    <div *ngFor="let place of places">
-      {{place.location.lat}} {{place.location.lng}}
-      <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng"></agm-marker> 
-      </div>
+    <app-custommarker [(x)]="lat"></app-custommarker>
+    <div *ngFor="let place of places; let i= index">
+      <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} [markerClickable]=true (markerClick)="onMarkerClick($event, i, infoWindow)"
+        (mouseOver)="onMouserOverMarker($event, infoWindow)" (mouseOut)="onMouseOutMarker($event, infoWindow)">
+        <agm-info-window #infoWindow>{{getInfo(i)}}</agm-info-window>
+      </agm-marker>
+    </div>
+
   </agm-map>
 </div>

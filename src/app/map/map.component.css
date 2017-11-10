@@ -1,6 +1,7 @@
 agm-map {
-    height: 90vh;
+    height: 85vh;
   }
 #map {
-    min-height: 90vh;
+    min-height: 85vh;
+    min-width: 90vw
 }
