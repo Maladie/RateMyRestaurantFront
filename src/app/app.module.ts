@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { SearchformComponent } from './searchform/searchform.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
@@ -14,19 +13,16 @@ import { MapComponent } from './map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { RegisterComponent } from './register/register.component';
 import { TokenInterceptor } from './token.interceptor';
-import { CustommarkerComponent } from './map/custommarker/custommarker.component';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    SearchformComponent,
     LoginComponent,
     HomeComponent,
     MapComponent,
     RegisterComponent,
-    CustommarkerComponent
   ],
   imports: [
     BrowserModule,

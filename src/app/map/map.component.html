@@ -21,7 +21,6 @@
     <agm-circle [(latitude)]="lat" [(longitude)]="lng" [(radius)]="radius" (dragEnd)="onDrag($event)" [fillColor]="'lime'" [editable]="true"
       [fillOpacity]="0.3">
     </agm-circle>
-    <app-custommarker [(x)]="lat"></app-custommarker>
     <div *ngFor="let place of places; let i= index">
       <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} [markerClickable]=true (markerClick)="onMarkerClick($event, i, infoWindow)"
         (mouseOver)="onMouserOverMarker($event, infoWindow)" (mouseOut)="onMouseOutMarker($event, infoWindow)">
