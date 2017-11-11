@@ -1,4 +1,3 @@
-
 <div class="col-xs-12">
   <h1>{{ title }}</h1>
   <button class="btn btn-success" (click)=home()>To Home</button>
@@ -9,11 +8,16 @@
 <div class="col-xs-12" id="map" style="margin-top:10px">
   <div *ngIf="showDetails" class="panel box-shadow panel-default detailspanel">
     <div>
-      <h4><strong>Additional info:</strong></h4>
+      <h4>
+        <strong>Additional info:</strong>
+      </h4>
       <button type="button" class="close" id="closebutton" (click)="closeDetails()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
-      </button><br>
-      <p><span>ID: {{ placeDetails.id }}</span></p>
+      </button>
+      <br>
+      <p>
+        <span>ID: {{ placeDetails.id }}</span>
+      </p>
       <p>Name: {{ placeDetails.name }}</p>
       <p>Is Newly created: {{placeDetails.newlyCreated}}</p>
       <p>Location:</p>
@@ -24,7 +28,7 @@
     </div>
   </div>
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-    <agm-marker [(latitude)]="lat" [(longitude)]="lng" [(label)]="label" [markerDraggable]=true (dragEnd)="onDrag($event)">
+    <agm-marker [(latitude)]="lat" [(longitude)]="lng" [(label)]="label" [markerDraggable]=true (dragEnd)="updateMapCenter($event)">
       <agm-snazzy-info-window [maxWidth]=300 [isOpen]="true" [closeWhenOthersOpen]="true">
         <ng-template>
           Are you here?
@@ -32,8 +36,7 @@
         </ng-template>
       </agm-snazzy-info-window>
     </agm-marker>
-    <agm-circle [(latitude)]="lat" [(longitude)]="lng" [(radius)]="radius" (dragEnd)="onDrag($event)" [fillColor]="'lime'" [editable]="true"
-      [fillOpacity]="0.3">
+    <agm-circle [(latitude)]="lat" [(longitude)]="lng" [(radius)]="radius" [fillColor]="'lime'" [editable]="true" [fillOpacity]="0.3">
     </agm-circle>
     <div *ngFor="let place of places; let i= index">
       <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} [markerClickable]=true>

@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { Marker, InfoWindow, MouseEvent } from '@agm/core/services/google-maps-types';
 import { MouseEvent as Coords } from '@agm/core/map-types';
 import { environment } from '../../environments/environment';
-import { PlacePin } from './placePin';
+import { PlacePin } from './pin/placePin';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { PlaceDetails } from './placeDetails';
+import { PlaceDetails } from './place/placeDetails';
 import { AgmSnazzyInfoWindow } from '@agm/snazzy-info-window';
 
 @Component({
@@ -34,7 +34,7 @@ export class MapComponent implements OnInit {
   home() {
     this._router.navigate(['']);
   }
-  onDrag(latLng: Coords) {
+  updateMapCenter(latLng: Coords) {
     // MouseEvent from @agm/core/map-types
     this.lat = latLng.coords.lat;
     this.lng = latLng.coords.lng;
