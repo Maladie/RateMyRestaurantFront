@@ -19,7 +19,7 @@
         <span>ID: {{ placeDetails.id }}</span>
       </p>
       <p>Name: {{ placeDetails.name }}</p>
-      <p>Is Newly created: {{placeDetails.newlyCreated}}</p>
+      <p *ngIf="placeDetails.newlyCreated">Newly created</p>
       <p>Location:</p>
       <ul>
         <li>Lat: {{ placeDetails.location.lat }}</li>

@@ -4,10 +4,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { LoginData } from './login-data';
-import { ResponseInfo } from '../services/responseinfo';
+import { ResponseInfo } from '../services/response-info';
 import { TokenInfo } from '../services/token-info';
 import { Headers } from '@angular/http/src/headers';
 import { AuthService } from '../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http/src/response';
 
 
 @Component({
@@ -43,7 +44,6 @@ export class LoginComponent implements OnInit {
         this._router.navigate(['/map']);
       }, err => {
         console.log(err);
-        this.errors = JSON.stringify(err);
       });
   }
   home() {
