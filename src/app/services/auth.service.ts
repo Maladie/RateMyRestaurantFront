@@ -9,7 +9,10 @@ export class AuthService {
   }
   public getToken(): string {
     const sessionToken = JSON.parse(sessionStorage.getItem('token')) as SessionToken; // Parsing to obj
-    return sessionToken.token;
+    if (sessionToken != null) {
+      return sessionToken.token;
+    }
+    return '';
   }
   private getTokenInfo(): SessionToken {
     return JSON.parse(sessionStorage.getItem('token')) as SessionToken;
