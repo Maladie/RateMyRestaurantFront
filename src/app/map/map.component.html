@@ -27,7 +27,7 @@
       </ul>
     </div>
   </div>
-  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDoubleClickZoom]=true>
     <agm-marker [(latitude)]="lat" [(longitude)]="lng" [(label)]="label" [markerDraggable]=true (dragEnd)="updateMapCenter($event)">
       <agm-snazzy-info-window [maxWidth]=300 [isOpen]="true" [closeWhenOthersOpen]="true">
         <ng-template>
@@ -49,6 +49,5 @@
         </agm-snazzy-info-window>
       </agm-marker>
     </div>
-
   </agm-map>
 </div>
