@@ -31,11 +31,6 @@ import { AuthService } from './services/auth.service';
     FormsModule,
     HttpClientModule,
     AgmSnazzyInfoWindowModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'map', component: MapComponent },
-      { path: 'register', component: RegisterComponent }]),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAULrtLKbtbVG5vBESqFyJTqE0F_Ykb7xs'
     })
