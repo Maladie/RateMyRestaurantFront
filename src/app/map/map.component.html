@@ -1,14 +1,28 @@
 
-
-<!-- this creates a google map on the page with the given lat/lng from -->
-<!-- the component as the initial center of the map: -->
-<div class="col-xs-12" >
-    <h1>{{ title }}</h1>
+<div class="col-xs-12">
+  <h1>{{ title }}</h1>
   <button class="btn btn-success" (click)=home()>To Home</button>
   <button class="btn" (click)="findPlaces()">Find places</button>
-  Lat: {{lat}} Lng: {{lng}} radius: {{radius}} <br> Additional Info: {{placeDetails.id}}, {{placeDetails.name}}, newlyCreated:{{placeDetails.newlyCreated}}
+  Lat: {{ lat }} Lng: {{ lng }} radius: {{ radius }}
+  <br>
 </div>
 <div class="col-xs-12" id="map" style="margin-top:10px">
+  <div *ngIf="showDetails" class="panel box-shadow panel-default detailspanel">
+    <div>
+      <h4><strong>Additional info:</strong></h4>
+      <button type="button" class="close" id="closebutton" (click)="closeDetails()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button><br>
+      <p><span>ID: {{ placeDetails.id }}</span></p>
+      <p>Name: {{ placeDetails.name }}</p>
+      <p>Is Newly created: {{placeDetails.newlyCreated}}</p>
+      <p>Location:</p>
+      <ul>
+        <li>Lat: {{ placeDetails.location.lat }}</li>
+        <li>Lng: {{ placeDetails.location.lng }}</li>
+      </ul>
+    </div>
+  </div>
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
     <agm-marker [(latitude)]="lat" [(longitude)]="lng" [(label)]="label" [markerDraggable]=true (dragEnd)="onDrag($event)">
       <agm-snazzy-info-window [maxWidth]=300 [isOpen]="true" [closeWhenOthersOpen]="true">
@@ -22,14 +36,14 @@
       [fillOpacity]="0.3">
     </agm-circle>
     <div *ngFor="let place of places; let i= index">
-      <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} [markerClickable]=true (markerClick)="onMarkerClick($event, i, infoWindow)"
-        (mouseOver)="onMouserOverMarker($event, infoWindow)" (mouseOut)="onMouseOutMarker($event, infoWindow)">
-        <agm-snazzy-info-window [maxWidth]=300 [isOpen]="false" [closeWhenOthersOpen]="true">
-        <ng-template>
-         {{getInfo(i)}} <br>
-         <button class="btn" (click)="getAdditionalInfo(i)">Additional Info</button>
-        </ng-template>
-      </agm-snazzy-info-window>
+      <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} [markerClickable]=true>
+        <agm-snazzy-info-window #infoWindow [maxWidth]=300>
+          <ng-template>
+            {{getInfo(i)}}
+            <br>
+            <button class="btn" (click)="getAdditionalInfo(i)">Additional Info</button>
+          </ng-template>
+        </agm-snazzy-info-window>
       </agm-marker>
     </div>
 

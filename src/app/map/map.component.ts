@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
 import { Marker, InfoWindow, MouseEvent } from '@agm/core/services/google-maps-types';
 import { MouseEvent as Coords } from '@agm/core/map-types';
@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { PlacePin } from './placePin';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PlaceDetails } from './placeDetails';
+import { AgmSnazzyInfoWindow } from '@agm/snazzy-info-window';
 
 @Component({
   selector: 'app-map',
@@ -24,7 +25,7 @@ export class MapComponent implements OnInit {
   @Input() radius = 150;
   places: PlacePin[];
   placeDetails: PlaceDetails = new PlaceDetails;
-  lastOpen: InfoWindow;
+  showDetails = false;
   constructor(private _router: Router, private _http: HttpClient) { }
 
   ngOnInit() {
@@ -49,39 +50,27 @@ export class MapComponent implements OnInit {
         this.places = response as PlacePin[];
       }, err => {
         console.log(JSON.stringify(err));
+        this.showDetails = false;
       });
   }
-  onMarkerClick($event: MouseEvent, placeIndex: number, window: InfoWindow) {
-    if (this.lastOpen !== undefined) {
-      this.lastOpen.close();
-    }
-    console.log('Clicked marker of place No.' + placeIndex + ' w: ' + window);
-    this.lastOpen = window;
-  }
+
   getInfo(i: number) {
     return this.places[i].name;
   }
-  onMouserOverMarker($event: MouseEvent, window: InfoWindow) {
-    if (window !== this.lastOpen) {
-      window.open();
-      console.log(window);
-    }
-  }
-  onMouseOutMarker($event: MouseEvent, window: InfoWindow) {
-    // skip closing if opened using click
-    if (window !== this.lastOpen) {
-      window.close();
-      console.log(window);
-    }
-  }
+
   getAdditionalInfo(i: number) {
     const placeId = this.places[i].id;
     this._http.get(environment.serverEndpoint + '/places/' + placeId + '/details').subscribe(
       response => {
         this.placeDetails = response as PlaceDetails;
+        this.showDetails = true;
         console.log('Response' + this.placeDetails);
       }, err => {
         console.log('Error: ' + JSON.stringify(err));
+        this.showDetails = false;
       });
+  }
+  closeDetails() {
+    this.showDetails = false;
   }
 }
