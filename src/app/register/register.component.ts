@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Login } from '../login/login';
+import { LoginData } from '../login/login-data';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +11,7 @@ import { Login } from '../login/login';
 })
 export class RegisterComponent implements OnInit {
 result;
-model = new Login('', '');
+model = new LoginData('', '');
   constructor(private http: HttpClient, private _router: Router) { }
 
   ngOnInit() {
