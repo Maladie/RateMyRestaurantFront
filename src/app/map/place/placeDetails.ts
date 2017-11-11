@@ -1,4 +1,4 @@
-import { PlacePin } from './placePin';
+import { PlacePin } from '../pin/placePin';
 
 export class PlaceDetails extends PlacePin {
     foodTypes: object[];
