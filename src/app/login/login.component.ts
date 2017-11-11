@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Login } from './login';
 import { Router } from '@angular/router';
-import { ResponseInfo } from '../responseinfo';
+import { LoginData } from './login-data';
+import { ResponseInfo } from '../services/responseinfo';
+import { TokenInfo } from '../services/token-info';
+import { Headers } from '@angular/http/src/headers';
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -13,45 +16,61 @@ import { ResponseInfo } from '../responseinfo';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  model: Login;
+  model: LoginData;
   result;
   headers: string[];
   errors;
   response;
   test;
-  constructor(private http: HttpClient, private _router: Router) {
-      this.model = new Login('', '');
+  constructor(private http: HttpClient, private _router: Router , private _auth: AuthService) {
+    this.model = new LoginData('', '');
   }
 
   ngOnInit() {
   }
 
-  onSubmit() {
+  submit() {
     console.log('url: ' + environment.serverEndpoint + '/login');
     const h = new HttpHeaders().append('Authorization', 'Basic ' + btoa(this.model.username + ':' + this.model.password))
-    .append('Content-Type', 'application/json');
+      .append('Content-Type', 'application/json');
     this.http
-    .post<ResponseInfo>(environment.serverEndpoint + '/api/login', this.model, {headers: h, observe: 'response', withCredentials: true})
-    .subscribe(resp => {
-      this.headers = resp.headers.getAll('Set-Cookie');
-      this.test = JSON.stringify(resp.headers.get('X-XSRF-TOKEN'));
-      this.result = JSON.stringify(resp.body);
-      console.log(JSON.stringify(document.cookie));
-      // this.response = JSON.stringify(resp);
-        // localStorage.setItem('token',.get('X-XSRF-TOKEN'));
-    }, err => {
-      console.log(err);
-      this.errors = JSON.stringify(err);
-    });
+      .post<ResponseInfo>(environment.serverEndpoint + '/api/login', this.model, { headers: h, observe: 'response', withCredentials: true })
+      .subscribe(resp => {
+        const token = this.parseTokenData();
+        const expirationTime = this.parseExpirationTime(resp.headers);
+        const tokenInfo = new TokenInfo(token, expirationTime);
+        this._auth.saveToken(tokenInfo);
+        this._router.navigate(['/map']);
+      }, err => {
+        console.log(err);
+        this.errors = JSON.stringify(err);
+      });
   }
   home() {
-      this._router.navigate(['']);
+    this._router.navigate(['']);
   }
   testClick() {
-    this.http.get(environment.serverEndpoint + '/api/test', {withCredentials: true}).subscribe(resp => {
+    this.http.get(environment.serverEndpoint + '/api/test', { withCredentials: true }).subscribe(resp => {
       this.test = JSON.stringify(resp);
     }, err => {
       this.test = JSON.stringify(err);
     });
+  }
+
+  parseTokenData(): string {
+    const token = document.cookie.split('=')[1];
+    if (token !== undefined && token !== null) {
+      console.log('token retrieved and saved');
+      return token;
+    }
+    return '';
+  }
+
+  parseExpirationTime(headers: HttpHeaders): number {
+    const expiresIn = headers.get('Token-expirationTime');
+    if (expiresIn !== undefined && expiresIn !== null) {
+      return parseInt(expiresIn, 10);
+    }
+    return 0;
   }
 }

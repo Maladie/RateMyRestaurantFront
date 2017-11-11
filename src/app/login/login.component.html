@@ -1,7 +1,7 @@
 <div class="container justify-content-center">
   <div class="row" style="margin-top:100px">
   <div class="col-xs-6 col-xs-offset-3">
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="col-md-3">
+  <form (ngSubmit)="submit()" #loginForm="ngForm" class="col-md-3">
     <div class="form-group">
       <label for="username">Username:</label>
       <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username">
