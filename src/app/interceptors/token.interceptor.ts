@@ -6,13 +6,14 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from '../services/auth.service';
+import { SessionToken } from '../shared/session-token';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private _auth: AuthService) { }
+  constructor() { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request.method === 'GET' || request.method === 'POST') {
-      const token = this._auth.getToken();
+     const sessionToken =  JSON.parse(sessionStorage.getItem('token')) as SessionToken;
+      const token = sessionToken.token;
       if (token !== undefined && token !== null) {
         request = request.clone({
           setHeaders: {
