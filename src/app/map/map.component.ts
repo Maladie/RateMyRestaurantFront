@@ -33,7 +33,7 @@ export class MapComponent implements OnInit, OnDestroy  {
   constructor(private _router: Router, private _webApiObservable: WebApiObservableService) { }
 
   ngOnInit() {
-    const timer = TimerObservable.create(1000, 15000); // every 15sec. check if server available xD
+    const timer = TimerObservable.create(1000, 30000); // every 30sec. check if server available xD
     this.subscription = timer.subscribe(t => {
       this._webApiObservable.ping();
     });
@@ -55,7 +55,7 @@ export class MapComponent implements OnInit, OnDestroy  {
     this._webApiObservable.getPlacesInRadius(center, this.radius).subscribe(response => {
       this.places = response as PlacePin[];
     }, err => {
-      console.log(JSON.stringify(err));
+      console.log(err);
       this.showDetails = false;
     });
   }
