@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChildren, QueryList, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Marker, InfoWindow, MouseEvent, LatLngLiteral } from '@agm/core/services/google-maps-types';
+import { Marker, InfoWindow, MouseEvent, LatLngLiteral, MapTypeStyle } from '@agm/core/services/google-maps-types';
 import { MouseEvent as Coords } from '@agm/core/map-types';
 import { environment } from '../../environments/environment';
 import { PlacePin } from './pin/placePin';
@@ -30,6 +30,7 @@ export class MapComponent implements OnInit, OnDestroy  {
   lastDetailsId;
   serverAvailable;
   subscription;
+  mapStyle: MapTypeStyle[];
   constructor(private _router: Router, private _webApiObservable: WebApiObservableService) { }
 
   ngOnInit() {
@@ -37,6 +38,10 @@ export class MapComponent implements OnInit, OnDestroy  {
     this.subscription = timer.subscribe(t => {
       this._webApiObservable.ping();
     });
+    // reads and sets map style from /assets/json/map-style.json
+    this._webApiObservable.getMapStyle().subscribe(resp => {
+      this.mapStyle = resp as MapTypeStyle[];
+    })
   }
 
   ngOnDestroy() {

@@ -89,6 +89,12 @@ export class WebApiObservableService {
             });
         // this._http.post(environment.serverEndpoint + environment.loginEndpoint, body, options, header, param)
     }
+    /**
+     * Retrieves map style from map-style.json file
+     */
+    getMapStyle() {
+        return this._http.get('./assets/json/map-style.json');
+    }
 }
 
 

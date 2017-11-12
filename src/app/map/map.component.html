@@ -22,7 +22,50 @@
     <div *ngIf="showDetails" class="parent-container">
       <app-place-details (showDetails)="handleShowDetails()" [detailsData]="detailsData"></app-place-details>
     </div>
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDoubleClickZoom]=true>
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDoubleClickZoom]=true [styles]='[
+    {
+      "featureType": "landscape",
+      "stylers": [
+        {
+          "visibility": "on"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.attraction",
+      "stylers": [
+        {
+          "visibility": "on"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.business",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.park",
+      "elementType": "labels.text",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "transit.line",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#abad8d"
+        }
+      ]
+    }
+  ]'>
       <agm-marker [(latitude)]="lat" [(longitude)]="lng" [(label)]="label" [markerDraggable]=true (dragEnd)="updateMapCenter($event)">
         <agm-snazzy-info-window [maxWidth]=300 [isOpen]="true" [closeWhenOthersOpen]="true">
           <ng-template>
