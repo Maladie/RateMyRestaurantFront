@@ -1,53 +1,49 @@
-<div class="col-xs-12">
-  <h1>{{ title }}</h1>
-  <button class="btn btn-success" (click)=home()>To Home</button>
-  <button class="btn" (click)="findPlaces()">Find places</button>
-  Lat: {{ lat }} Lng: {{ lng }} radius: {{ radius }}
-  <br>
-</div>
-<div class="col-xs-12" id="map" style="margin-top:10px">
-  <div *ngIf="showDetails" class="panel box-shadow panel-default detailspanel">
-    <div>
-      <h4>
-        <strong>Additional info:</strong>
-      </h4>
-      <button type="button" class="close" id="closebutton" (click)="closeDetails()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <br>
-      <p>
-        <span>ID: {{ placeDetails.id }}</span>
-      </p>
-      <p>Name: {{ placeDetails.name }}</p>
-      <p *ngIf="placeDetails.newlyCreated">Newly created</p>
-      <p>Location:</p>
-      <ul>
-        <li>Lat: {{ placeDetails.location.lat }}</li>
-        <li>Lng: {{ placeDetails.location.lng }}</li>
-      </ul>
-    </div>
+<div>
+  <div>
+    <h1>{{ title }}</h1>
+    <button class="btn btn-success" (click)=home()>To Home</button>
+    <button class="btn" (click)="findPlaces()">Find places</button>
+    Lat: {{ lat }} Lng: {{ lng }} radius: {{ radius }}
+    <br>
   </div>
-  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDoubleClickZoom]=true>
-    <agm-marker [(latitude)]="lat" [(longitude)]="lng" [(label)]="label" [markerDraggable]=true (dragEnd)="updateMapCenter($event)">
-      <agm-snazzy-info-window [maxWidth]=300 [isOpen]="true" [closeWhenOthersOpen]="true">
-        <ng-template>
-          Are you here?
-          <br> Drag pin to your location ;)
-        </ng-template>
-      </agm-snazzy-info-window>
-    </agm-marker>
-    <agm-circle [(latitude)]="lat" [(longitude)]="lng" [(radius)]="radius" [fillColor]="'lime'" [editable]="true" [fillOpacity]="0.3">
-    </agm-circle>
-    <div *ngFor="let place of places; let i= index">
-      <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} [markerClickable]=true>
-        <agm-snazzy-info-window #infoWindow [maxWidth]=300>
+  <div class="server-available">
+    <div *ngIf="isAvailable(); else elseBlock">
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <circle cx="10" cy="10" r="10" fill="lime" />
+      </svg>
+    </div>
+    <ng-template #elseBlock>
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <circle cx="10" cy="10" r="10" fill="red"  />
+      </svg> 
+    </ng-template> 
+  </div>
+  <div id="map">
+    <div *ngIf="showDetails" class="parent-container">
+      <app-place-details (showDetails)="handleShowDetails()" [detailsData]="detailsData"></app-place-details>
+    </div>
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDoubleClickZoom]=true>
+      <agm-marker [(latitude)]="lat" [(longitude)]="lng" [(label)]="label" [markerDraggable]=true (dragEnd)="updateMapCenter($event)">
+        <agm-snazzy-info-window [maxWidth]=300 [isOpen]="true" [closeWhenOthersOpen]="true">
           <ng-template>
-            {{getInfo(i)}}
-            <br>
-            <button class="btn" (click)="getAdditionalInfo(i)">Additional Info</button>
+            Are you here?
+            <br> Drag pin to your location ;)
           </ng-template>
         </agm-snazzy-info-window>
       </agm-marker>
-    </div>
-  </agm-map>
+      <agm-circle [(latitude)]="lat" [(longitude)]="lng" [(radius)]="radius" [fillColor]="'lime'" [editable]="true" [fillOpacity]="0.3">
+      </agm-circle>
+      <div *ngFor="let place of places; let i= index">
+        <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} [markerClickable]=true>
+          <agm-snazzy-info-window #infoWindow [maxWidth]=300 [closeWhenOthersOpen]=true>
+            <ng-template>
+              {{getInfo(i)}}
+              <br>
+              <button class="btn" (click)="getAdditionalInfo(i)">Additional Info</button>
+            </ng-template>
+          </agm-snazzy-info-window>
+        </agm-marker>
+      </div>
+    </agm-map>
+  </div>
 </div>
