@@ -14,7 +14,10 @@ import { AgmCoreModule } from '@agm/core';
 import { RegisterComponent } from './register/register.component';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { AuthService } from './services/auth.service';
+import { PlaceDetailsComponent } from './map/place-details/place-details.component';
+import { WebApiObservableService } from './shared/web-api-obserable.service';
+import { AuthService } from './shared/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { AuthService } from './services/auth.service';
     HomeComponent,
     MapComponent,
     RegisterComponent,
+    PlaceDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -36,12 +40,25 @@ import { AuthService } from './services/auth.service';
     })
   ],
   providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  }, AuthService],
+    provide: AuthService,
+    useClass: AuthService,
+    deps: [WebApiObservableService]
+  }, {
+    provide: WebApiObservableService,
+    useClass: WebApiObservableService,
+    deps: [HttpClient]
+  },
+{
+  provide: HTTP_INTERCEPTORS,
+  useClass: TokenInterceptor,
+  multi: true
+}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
 
-
+// {
+//   provide: HTTP_INTERCEPTORS,
+//   useClass: TokenInterceptor,
+//   multi: true
+// },
