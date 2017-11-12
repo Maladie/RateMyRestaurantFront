@@ -1,16 +1,18 @@
-<div class="col-xs-4 col-xs-offset-4" style="margin-top:20vh">
-  <div *ngIf="isLoggedIn(); then thenBlock; else elseBlock">
+<div class="container">
+  <div class="mx-auto home-button" style="margin-top:20vh">
+    <div *ngIf="isLoggedIn(); then thenBlock; else elseBlock">
+    </div>
+    <ng-template #thenBlock>
+      <input type="button" class="btn btn-danger btn-block" value="Logout" (click)=logout()>
+    </ng-template>
+    <ng-template #elseBlock>
+      <input type="button" class="btn btn-danger btn-block" value="Login" (click)=login()>
+      <br>
+      <br>
+    </ng-template>
+    <input *ngIf="isLoggedIn()==false" type="button" class="btn btn-warning btn-block" value="Register" (click)=register()>
+    <br>
+    <br>
+    <input type="button" class="btn btn-success btn-block" value="Go to Map" (click)=map()>
   </div>
-  <ng-template #thenBlock>
-    <input type="button" class="btn btn-danger btn-block" value="Logout" (click)=logout()>
-  </ng-template>
-  <ng-template #elseBlock>
-    <input type="button" class="btn btn-danger btn-block" value="Login" (click)=login()>
-    <br>
-    <br>
-  </ng-template>
-  <input *ngIf="isLoggedIn()==false" type="button" class="btn btn-warning btn-block" value="Register" (click)=register()>
-  <br>
-  <br>
-  <input type="button" class="btn btn-success btn-block" value="Go to Map" (click)=map()>
 </div>
