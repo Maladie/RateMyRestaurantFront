@@ -4,9 +4,22 @@
     box-shadow: 0px 2.5px 5px 0px rgba(50, 50, 50, 0.52)
   }
   .login-panel {
-      margin-top: 20vh;
       padding: 20px !important;
-      max-width: 350px;
-      max-height: 400px;
+      top: 20vh;
       display: block;
   }
+/* 
+  .login-container {
+    background-image: url('/assets/images/pexels-photo-106343.jpeg')!important;
+    width: 100%;
+    height: auto;
+} */
+.login-container {
+    background-image: url('/assets/images/pexels-photo-106343_2.jpg')!important;
+    width: 100%;
+    height: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}

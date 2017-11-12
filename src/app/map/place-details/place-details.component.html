@@ -7,10 +7,10 @@
       <span aria-hidden="true">&times;</span>
     </button>
     <br>
+    <p>Name: <strong>{{ detailsData.name }}</strong></p>
     <p>
       <span>ID: {{ detailsData.id }}</span>
     </p>
-    <p>Name: {{ detailsData.name }}</p>
     <p *ngIf="detailsData.newlyCreated">Newly created</p>
     <p>Location:</p>
     <ul>
