@@ -1,6 +1,6 @@
 import { PlacePin } from '../pin/placePin';
 
-export class PlaceDetails extends PlacePin {
+export class PlaceDetailsData extends PlacePin {
     foodTypes: object[];
     newlyCreated: boolean;
     ingredientRatings: object[];
