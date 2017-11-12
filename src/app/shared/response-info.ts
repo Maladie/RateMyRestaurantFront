@@ -1,6 +1,6 @@
 export class ResponseInfo {
     public key: string;
-    public code: number;
+    public code: 0;
     public desc: string;
     public object: object;
     public stringInfo(): string {
