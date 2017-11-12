@@ -1,0 +1,21 @@
+<div class="card box-shadow details-panel">
+  <div>
+    <h4>
+      <strong>Additional info:</strong>
+    </h4>
+    <button type="button" class="close close-button" (click)="closeDetails($event)" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <br>
+    <p>
+      <span>ID: {{ detailsData.id }}</span>
+    </p>
+    <p>Name: {{ detailsData.name }}</p>
+    <p *ngIf="detailsData.newlyCreated">Newly created</p>
+    <p>Location:</p>
+    <ul>
+      <li>Lat: {{ detailsData.location.lat }}</li>
+      <li>Lng: {{ detailsData.location.lng }}</li>
+    </ul>
+  </div>
+</div>
