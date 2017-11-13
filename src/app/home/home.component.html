@@ -1,14 +1,14 @@
 <div class="home-container">
   <div class="container">
     <div class="mx-auto home-panel col-md-4 card box-shadow">
-      <div *ngIf="isLoggedIn(); then thenBlock; else elseBlock">
-      </div>
-      <ng-template #thenBlock>
-        <input type="button" class="btn btn-danger btn-block" value="Logout" (click)=logout()>
-      </ng-template>
-      <ng-template #elseBlock>
-        <input type="button" class="btn btn-danger btn-block" value="Login" (click)=login()>
-      </ng-template>
+      <!--<div *ngIf="isLoggedIn(); then thenBlock; else elseBlock">-->
+      <!--</div>-->
+      <!--<ng-template #thenBlock>-->
+        <!--<input type="button" class="btn btn-danger btn-block" value="Logout" (click)=logout()>-->
+      <!--</ng-template>-->
+      <!--<ng-template #elseBlock>-->
+        <!--<input type="button" class="btn btn-danger btn-block" value="Login" (click)=login()>-->
+      <!--</ng-template>-->
       <input *ngIf="isLoggedIn()==false" type="button" class="btn btn-warning btn-block" value="Register" (click)=register()>
       <input type="button" class="btn btn-success btn-block" value="Start searching" (click)=map()>
     </div>
