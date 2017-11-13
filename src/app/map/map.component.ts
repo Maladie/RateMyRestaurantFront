@@ -36,9 +36,9 @@ export class MapComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // every 30sec. check if server available xD
     const timer = TimerObservable.create(1000, 30000);
-    this.subscription = timer.subscribe(t => {
-      this._webApiObservable.ping();
-    });
+    // this.subscription = timer.subscribe(t => {
+    //   this._webApiObservable.ping();
+    // });
     // reads and sets map style from /assets/json/map-style.json
     this._webApiObservable.getMapStyle().subscribe(resp => {
       this.mapStyle = resp as MapTypeStyle[];
