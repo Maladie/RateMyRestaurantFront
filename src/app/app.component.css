@@ -3,3 +3,44 @@
     -moz-box-shadow: 0px 5px 10px 0px rgba(50, 50, 50, 0.52);
     box-shadow: 0px 5px 10px 0px rgba(50, 50, 50, 0.52) !important
   }
+
+#logo {
+  width: 150px;
+  margin-right: 0px;
+  margin-left: 7%;
+}
+
+#ratemykebs {
+  font-family: 'Lobster', cursive;
+  font-size: 50px;
+  margin-left: -35px;
+  padding-left: 0px;
+  color: #ffa50f;
+}
+
+#header {
+  background-color: #a34441 !important;
+  background-image: url("https://www.transparenttextures.com/patterns/classy-fabric.png");
+}
+
+#navbarRight {
+  margin-left: 40%;
+}
+
+#loginButton {
+  font-family: 'Lobster', cursive;
+  color: #ffa50f;
+  font-size: 25px;
+  margin-top: -7px;
+  cursor: pointer;
+  margin-right: 5px
+}
+
+#logoutButton {
+  font-family: 'Lobster', cursive;
+  color: #ffa50f;
+  font-size: 25px;
+  margin-top: -7px;
+  cursor: pointer;
+  margin-right: 5px
+}
