@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -18,6 +18,7 @@ import { PlaceDetailsComponent } from './map/place-details/place-details.compone
 import { WebApiObservableService } from './shared/web-api-obserable.service';
 import { AuthService } from './shared/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { EqualityValidatorDirective } from './shared/equality-validator.directive';
 
 @NgModule({
   declarations: [
@@ -27,12 +28,14 @@ import { HttpClient } from '@angular/common/http';
     HomeComponent,
     MapComponent,
     RegisterComponent,
-    PlaceDetailsComponent
+    PlaceDetailsComponent,
+    EqualityValidatorDirective,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
     HttpClientModule,
     AgmSnazzyInfoWindowModule,
     AgmCoreModule.forRoot({
@@ -56,9 +59,3 @@ import { HttpClient } from '@angular/common/http';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-// {
-//   provide: HTTP_INTERCEPTORS,
-//   useClass: TokenInterceptor,
-//   multi: true
-// },

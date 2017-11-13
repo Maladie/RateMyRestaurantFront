@@ -1,4 +1,4 @@
-import { NgModule, Component, Pipe, OnInit } from '@angular/core';
+import { NgModule, Component, Pipe, OnInit, Input } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, FormControl, 
 import { EqualityValidatorDirective } from '../shared/equality-validator.directive';
 import { RegisterData } from './register-data';
 import { WebApiObservableService } from '../shared/web-api-obserable.service';
+import { ResponseInfo } from '../shared/response-info';
 
 @Component({
   selector: 'app-register',
@@ -14,12 +15,13 @@ import { WebApiObservableService } from '../shared/web-api-obserable.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  result;
+  result: ResponseInfo = new ResponseInfo();
+  resultCode = -1;
   myform: FormGroup;
   username: FormControl;
   password: FormControl;
   confirmPassword: FormControl;
-  autologin: FormControl;
+  autologin: FormControl; // currently not supported
   constructor(private _webApiObservable: WebApiObservableService) { }
   ngOnInit() {
     this.createFormControls();
@@ -48,32 +50,25 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  // onSubmit() {
-  //   console.log('url: ' + environment.serverEndpoint + '/register');
-  //   const h = new HttpHeaders().append('Authorization', 'Basic ' + btoa(this.model.username + ':' + this.model.password));
-  //   const body = new HttpParams().append('username', this.model.username).append('password', this.model.password);
-  //   this.http.post(environment.serverEndpoint + '/register', this.model, { headers: h, withCredentials: true })
-  //     .subscribe(data => {
-  //       this.result = JSON.stringify(data);
-  //       this.result = JSON.stringify(this.result);
-  //     });
-  // }
-  home() {
-    this._router.navigate(['']);
-  }
   onSubmit() {
+    console.log('R' + this.result.code);
     if (this.myform.valid) {
       const h = new HttpHeaders().append('Authorization', 'Basic ' + btoa(this.username.value + ':' + this.password.value));
-        // const body = new HttpParams().append('username', this.username.value).append('password', this.password.value);
-        const registerData = new RegisterData(this.username.value, this.password.value);
-        this.http.post(environment.serverEndpoint + '/register', registerData, { headers: h, withCredentials: true })
-          .subscribe(data => {
-            this.result = JSON.stringify(data);
-            this.result = JSON.stringify(this.result);
-          });
-      console.log('submitted');
+      const registerData = new RegisterData(this.username.value, this.password.value);
+      console.log('Submitted');
+      this._webApiObservable.addNewUserJSON(registerData)
+        .subscribe(data => {
+          this.result = data as ResponseInfo;
+          this.resultCode = this.result.code;
+          console.log(data);
+        }, err => {
+          console.log('Registration error!');
+          this.result = err;
+          this.resultCode = this.result.code;
+          console.log(err);
+        });
     } else {
-      console.log('not submitted');
+      console.log('Not submitted, invalid data');
     }
   }
 }
