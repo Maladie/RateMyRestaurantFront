@@ -8,13 +8,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { AgmSnazzyInfoWindow } from '@agm/snazzy-info-window';
 import { PlaceDetailsData } from './place-details/place-details-data';
 import { WebApiObservableService } from '../shared/web-api-obserable.service';
-import {TimerObservable} from 'rxjs/observable/TimerObservable';
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit, OnDestroy  {
+export class MapComponent implements OnInit, OnDestroy {
   private placesInRadiusEndpoint = '/places/area';
   title = 'Angular Google Maps ;)';
   @Input() centerMapLat = 50.259995;
@@ -31,10 +31,11 @@ export class MapComponent implements OnInit, OnDestroy  {
   serverAvailable;
   subscription;
   mapStyle: MapTypeStyle[];
-  constructor(private _router: Router, private _webApiObservable: WebApiObservableService) { }
+  constructor(private _webApiObservable: WebApiObservableService) { }
 
   ngOnInit() {
-    const timer = TimerObservable.create(1000, 30000); // every 30sec. check if server available xD
+    // every 30sec. check if server available xD
+    const timer = TimerObservable.create(1000, 30000);
     this.subscription = timer.subscribe(t => {
       this._webApiObservable.ping();
     });
@@ -47,9 +48,7 @@ export class MapComponent implements OnInit, OnDestroy  {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-  home() {
-    this._router.navigate(['']);
-  }
+
   updateMapCenter(latLng: Coords) {
     // MouseEvent from @agm/core/map-types
     this.lat = latLng.coords.lat;

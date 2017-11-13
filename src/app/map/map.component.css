@@ -3,8 +3,6 @@ agm-map {
 }
 
 #map {
-  min-height: 85vh !important;
-  min-width: 90vw !important;
   margin-top: 5px;
 }
 
