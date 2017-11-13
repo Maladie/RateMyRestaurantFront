@@ -16,7 +16,6 @@ import { ResponseInfo } from '../shared/response-info';
 })
 export class RegisterComponent implements OnInit {
   result: ResponseInfo = new ResponseInfo();
-  resultCode = -1;
   myform: FormGroup;
   username: FormControl;
   password: FormControl;
@@ -51,7 +50,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('R' + this.result.code);
     if (this.myform.valid) {
       const h = new HttpHeaders().append('Authorization', 'Basic ' + btoa(this.username.value + ':' + this.password.value));
       const registerData = new RegisterData(this.username.value, this.password.value);
@@ -59,12 +57,10 @@ export class RegisterComponent implements OnInit {
       this._webApiObservable.addNewUserJSON(registerData)
         .subscribe(data => {
           this.result = data as ResponseInfo;
-          this.resultCode = this.result.code;
           console.log(data);
         }, err => {
           console.log('Registration error!');
           this.result = err;
-          this.resultCode = this.result.code;
           console.log(err);
         });
     } else {

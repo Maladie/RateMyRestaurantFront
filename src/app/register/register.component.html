@@ -54,7 +54,7 @@
             </label>
           </div>
         </div>
-        <input type="submit" class="btn btn-success btn-block" value="Register" [ngClass]="{disabled: myform.invalid }">
+        <input type="submit" class="btn btn-success btn-block" value="Register" [disabled]="myform.invalid">
         <!-- <pre>{{myform.value | json}}</pre> -->
       </form>
       <div class="mx-auto">

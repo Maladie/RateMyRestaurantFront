@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LoginData } from './login-data';
 import { AuthService } from '../shared/auth.service';
 import { ResponseInfo } from '../shared/response-info';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -13,19 +14,22 @@ import { ResponseInfo } from '../shared/response-info';
 })
 export class LoginComponent implements OnInit {
   model: LoginData;
-  response: ResponseInfo;
-  constructor(private _router: Router , private _auth: AuthService) {
+  result: ResponseInfo;
+  constructor(private _router: Router, private _auth: AuthService) {
     this.model = new LoginData('', '');
-    this.response = new ResponseInfo();
+    this.result = new ResponseInfo();
   }
 
   ngOnInit() {
   }
 
   submit() {
-    const response = this._auth.loginUser(this.model);
-  }
-  home() {
-    this._router.navigate(['']);
+    this._auth.loginUser(this.model).then(ok => {
+      console.log('ok ' + JSON.stringify(ok));
+      this.result = ok as ResponseInfo;
+    }, nok =>{
+      console.log('nok ' +nok);
+      this.result = nok.error as ResponseInfo;
+    });
   }
 }

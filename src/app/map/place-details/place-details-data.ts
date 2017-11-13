@@ -4,4 +4,7 @@ export class PlaceDetailsData extends PlacePin {
     foodTypes: object[];
     newlyCreated: boolean;
     ingredientRatings: object[];
+    constructor() {
+        super();
+    }
 }

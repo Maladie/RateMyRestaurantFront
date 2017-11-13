@@ -25,7 +25,7 @@ export class MapComponent implements OnInit, OnDestroy {
   zoom = 17;
   @Input() radius = 150;
   places: PlacePin[];
-  detailsData: PlaceDetailsData = new PlaceDetailsData;
+  detailsData: PlaceDetailsData = new PlaceDetailsData();
   showDetails = false;
   lastDetailsId;
   serverAvailable;

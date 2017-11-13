@@ -5,9 +5,13 @@ import { SessionToken } from './session-token';
 import { WebApiObservableService } from './web-api-obserable.service';
 import { HttpHeaders } from '@angular/common/http';
 import { LoginData } from '../login/login-data';
+import { Observable } from 'rxjs/Observable';
+import { ResponseInfo } from './response-info';
+import { resolve, reject } from 'q';
 
 @Injectable()
 export class AuthService {
+  val: ResponseInfo = new ResponseInfo();
   constructor(private _router: Router, private _webApiObservable: WebApiObservableService) {
   }
   public getToken(): string {
@@ -18,16 +22,22 @@ export class AuthService {
     return '';
   }
   public loginUser(loginData: LoginData) {
-    this._webApiObservable.loginToWebApi(loginData)
-      .subscribe(resp => {
+    return new Promise((resolve, reject) => {
+      this._webApiObservable.loginToWebApi(loginData).subscribe(resp => {
         const token = this.parseTokenData();
         const expirationTime = this.parseExpirationTime(resp.headers);
         const tokenInfo = new TokenInfo(token, expirationTime);
         this.saveToken(tokenInfo);
-        this._router.navigate(['']);
+        console.log('login ok');
+        resolve(resp.body);
       }, err => {
-        console.log(err);
+        console.log('login err: ' + JSON.stringify(err));
+        reject(err);
       });
+    });
+  }
+  clearResponse() {
+    this.val = null;
   }
 
   private getTokenInfo(): SessionToken {
@@ -43,11 +53,9 @@ export class AuthService {
     const expireDate = new Date().getTime() + (1000 * tokenInfo.expires_in);
     const sessionToken = new SessionToken(expireDate, tokenInfo.access_token);
     sessionStorage.setItem('token', JSON.stringify(sessionStorage)); // convert to string JSON
-    this._router.navigate(['/']);
   }
   public logout() {
     sessionStorage.removeItem('token');
-    this._router.navigate(['']);
   }
 
   private checkIfExpired(): boolean {

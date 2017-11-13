@@ -1,18 +1,24 @@
 <div class="login-container">
-<div class="container">
-      <div class="mx-auto col-md-4 card login-panel box-shadow">
-        <form (ngSubmit)="submit()" #loginForm="ngForm">
-          <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username">
-          </div>
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="text" class="form-control" id="password" [(ngModel)]="model.password" name="password">
-          </div>
-          <input type="submit" class="btn btn-success btn-block" value="Login">
-        </form>
-        <input type="button" routerLink="/" class="btn btn-info btn-block" value="Return to Home page">
+  <div class="container">
+    <div class="mx-auto col-md-4 card login-panel box-shadow">
+      <div *ngIf="result?.code == 0" class="alert alert-success" role="alert">
+        Login successful!
+      </div>
+      <div *ngIf="result?.code > 0" class="alert alert-danger" role="alert">
+        Login falied! Cause: {{ result.desc }}
+      </div>
+      <form (ngSubmit)="submit()" #loginForm="ngForm">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" class="form-control" id="username" [(ngModel)]="model.username" name="username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="text" class="form-control" id="password" [(ngModel)]="model.password" name="password">
+        </div>
+        <input [disabled]="result?.code==0" type="submit" class="btn btn-success btn-block" value="Login">
+      </form>
+      <input type="button" routerLink="/" class="btn btn-info btn-block" value="Return to Home page">
     </div>
   </div>
 </div>
