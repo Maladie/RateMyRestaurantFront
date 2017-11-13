@@ -42,7 +42,7 @@ export class MapComponent implements OnInit, OnDestroy {
     // reads and sets map style from /assets/json/map-style.json
     this._webApiObservable.getMapStyle().subscribe(resp => {
       this.mapStyle = resp as MapTypeStyle[];
-    })
+    });
   }
 
   ngOnDestroy() {
