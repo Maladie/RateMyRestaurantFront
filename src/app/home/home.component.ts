@@ -19,12 +19,4 @@ export class HomeComponent implements OnInit {
     isLoggedIn() {
         return this._auth.isAuthenticated();
     }
-
-    map() {
-        this._route.navigate(['/map']);
-    }
-
-    register() {
-        this._route.navigate(['/register']);
-    }
 }

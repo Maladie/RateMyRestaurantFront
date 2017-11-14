@@ -9,8 +9,8 @@
       <!--<ng-template #elseBlock>-->
         <!--<input type="button" class="btn btn-danger btn-block" value="Login" (click)=login()>-->
       <!--</ng-template>-->
-      <input *ngIf="isLoggedIn()==false" type="button" class="btn btn-warning btn-block" value="Register" (click)=register()>
-      <input type="button" class="btn btn-success btn-block" value="Start searching" (click)=map()>
+      <input *ngIf="isLoggedIn()==false" type="button" class="btn btn-warning btn-block" value="Register" [routerLink]="['register']">
+      <input type="button" class="btn btn-success btn-block" value="Start searching" [routerLink]="['map']">
     </div>
   </div>
 </div>
