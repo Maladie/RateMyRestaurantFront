@@ -25,12 +25,13 @@ export class MapComponent implements OnInit, OnDestroy {
   zoom = 17;
   @Input() radius = 150;
   places: PlacePin[];
-  detailsData: PlaceDetailsData = new PlaceDetailsData();
+  detailsData: PlaceDetailsData;
   showDetails = false;
   lastDetailsId;
   serverAvailable;
   subscription;
   mapStyle: MapTypeStyle[];
+  loading= false;
   constructor(private _webApiObservable: WebApiObservableService) { }
 
   ngOnInit() {
@@ -57,12 +58,15 @@ export class MapComponent implements OnInit, OnDestroy {
     this.lng = latLng.coords.lng;
   }
   findPlaces() {
+    this.loading = true;
     const center = { lat: this.lat, lng: this.lng } as LatLngLiteral;
     this._webApiObservable.getPlacesInRadius(center, this.radius).subscribe(response => {
       this.places = response as PlacePin[];
+      this.loading = false;
     }, err => {
       console.log(err);
       this.showDetails = false;
+      this.loading = false;
     });
   }
 
@@ -81,12 +85,25 @@ export class MapComponent implements OnInit, OnDestroy {
         console.log(err);
       });
     }
-    this.showDetails = true;
   }
   handleShowDetails() {
     this.showDetails = false;
   }
   isAvailable() {
     return this._webApiObservable.serverStatus;
+  }
+  infoEnter($event, window: InfoWindow ) {
+    window.open();
+  }
+  infoOut($event, window: InfoWindow ) {
+    window.close();
+  }
+  showPlaceDetails(i: number) {
+    console.log('details shown');
+    this.showDetails = true;
+    if(this.detailsData && this.detailsData.id !== this.places[i].id) {
+      this.detailsData = null;
+    }
+    this.getAdditionalInfo(i);
   }
 }

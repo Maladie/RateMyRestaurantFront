@@ -1,8 +1,9 @@
 agm-map {
-  height: 80vh;
+  height: 85vh;
 }
 
 #map {
+  display: block;
   margin-top: 5px;
 }
 
@@ -15,4 +16,38 @@ agm-map {
   max-width: 20px;
   right: 20px;
   top: 20px;
+}
+
+.place-list {
+  max-height: 85vh;
+  overflow-y: scroll;
+}
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #dd1515; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 1.2s linear infinite;
+  position: absolute;
+  left: 45%;
+  top: 40%;
+  z-index: 5;
+}
+.dimm {
+  position: absolute;
+  height: 95%;
+  width: 98%;
+  background:rgba(0, 0, 0, 0.384);
+  z-index: 3;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.search-button {
+  margin-top: 5px;
+}
+.infoTemplate {
+  font-size: 8px !important;
 }

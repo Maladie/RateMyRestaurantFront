@@ -20,38 +20,55 @@
   </div> -->
   <div class="row">
     <div class="col-md-8">
-      <div id="map ">
+      <div id="map">
         <div *ngIf="showDetails" class="parent-container">
           <app-place-details (showDetails)="handleShowDetails()" [detailsData]="detailsData"></app-place-details>
         </div>
+        <div class="loader" [hidden]="loading != true"></div>
+        <div class="dimm" [hidden]="loading != true"></div>
         <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDoubleClickZoom]=true [styles]="mapStyle">
           <agm-marker [(latitude)]="lat" [(longitude)]="lng" [(label)]="label" [markerDraggable]=true (dragEnd)="updateMapCenter($event)">
-            <agm-snazzy-info-window [maxWidth]=300 [isOpen]="true" [closeWhenOthersOpen]="true">
-              <ng-template>
+            <agm-snazzy-info-window [maxWidth]=340 [isOpen]="true" [closeWhenOthersOpen]="true">
+              <ng-template class="infoTemplate">
                 Are you here?
-                <br> Drag pin to your location ;)
+                <small><br>Drag pin to your location,
+                <br> then click ;)</small>
+                <button class="btn btn-info btn-block search-button" (click)="findPlaces()">Find places</button>
               </ng-template>
             </agm-snazzy-info-window>
           </agm-marker>
           <agm-circle [(latitude)]="lat" [(longitude)]="lng" [(radius)]="radius" [fillColor]="'lime'" [editable]="true" [fillOpacity]="0.3">
           </agm-circle>
           <div *ngFor="let place of places; let i= index">
-            <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} [markerClickable]=true>
-              <agm-snazzy-info-window #infoWindow [maxWidth]=300 [closeWhenOthersOpen]=true>
+            <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} (mouseOver)="infoEnter($event, infoWindow)"
+              (mouseOut)="infoOut($event, infoWindow)" [markerClickable]=true>
+              <agm-info-window #infoWindow>
+                {{getInfo(i)}}
+              </agm-info-window>
+              <!-- <agm-snazzy-info-window #infoWindow [maxWidth]=300 [closeWhenOthersOpen]=true>
                 <ng-template>
                   {{getInfo(i)}}
                   <br>
                   <button class="btn" (click)="getAdditionalInfo(i)">Additional Info</button>
                 </ng-template>
-              </agm-snazzy-info-window>
+              </agm-snazzy-info-window> -->
             </agm-marker>
           </div>
         </agm-map>
       </div>
-      <button class="btn" (click)="findPlaces()">Find places</button>
+
     </div>
-    <div class="col-md-4">
-      <app-place-detail-card></app-place-detail-card>
+    <div class="col-md-4 place-list">
+      <div *ngFor="let placeDetail of places; let i= index" class="list-group">
+        <!-- <app-place-detail-card [placeIndex]="i + 1" [placeName]="placeDetail.name"></app-place-detail-card> -->
+        <div class="list-group-item list-group-item-action" (click)="showPlaceDetails(i)" id="placeDetail.id" role="tab" aria-controls="i">
+          {{ i+1 }}.
+          <strong>{{ placeDetail.name }}</strong>
+          <div class="place-list-item">
+            <small>show details</small>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
