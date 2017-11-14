@@ -50,3 +50,48 @@
 .opinion-button {
   margin-top: 30px;
 }
+
+.options {
+  width: 22px;
+  margin: 8px;
+}
+
+.options:hover {
+  width: 25px;
+  cursor: pointer;
+}
+
+#likes {
+  font-family: 'Lobster', cursive;
+  font-size: 20px;
+  color: #00c41a;
+}
+
+#dislikes {
+  font-family: 'Lobster', cursive;
+  font-size: 20px;
+  color: #c40e1c;
+}
+
+#barname {
+  font-family: 'Lobster', cursive;
+  font-size: 40px;
+  color: #ffa50f;
+}
+
+#norating {
+  font-family: 'Oxygen', sans-serif;
+  font-size: 30px;
+  color: #c40e1c;
+}
+
+#card {
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/arches.png");
+}
+
+#foodtype {
+  font-family: 'Lobster', cursive;
+  font-size: 23px;
+  color: #ffa50f;
+}
