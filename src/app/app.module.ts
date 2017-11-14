@@ -19,6 +19,7 @@ import { WebApiObservableService } from './shared/web-api-obserable.service';
 import { AuthService } from './shared/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { EqualityValidatorDirective } from './shared/equality-validator.directive';
+import { PlaceDetailCardComponent } from './map/place-detail-card/place-detail-card.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { EqualityValidatorDirective } from './shared/equality-validator.directiv
     RegisterComponent,
     PlaceDetailsComponent,
     EqualityValidatorDirective,
+    PlaceDetailCardComponent
   ],
   imports: [
     BrowserModule,
