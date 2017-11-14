@@ -20,6 +20,7 @@ import { AuthService } from './shared/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { EqualityValidatorDirective } from './shared/equality-validator.directive';
 import { PlaceDetailCardComponent } from './map/place-detail-card/place-detail-card.component';
+import { IngredientRating } from './shared/ingredient-rating';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { PlaceDetailCardComponent } from './map/place-detail-card/place-detail-c
     RegisterComponent,
     PlaceDetailsComponent,
     EqualityValidatorDirective,
-    PlaceDetailCardComponent
+    PlaceDetailCardComponent,
   ],
   imports: [
     BrowserModule,

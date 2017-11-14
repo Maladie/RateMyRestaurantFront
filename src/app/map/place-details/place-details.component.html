@@ -1,21 +1,45 @@
 <div class="card box-shadow details-panel">
+  <div class="loader" [hidden]="detailsData && detailsData !== null">
+  </div>
   <div>
-    <h4>
-      <strong>Additional info:</strong>
+    <h4 class="text-center">
+      <strong class="details-name">{{ detailsData?.name }}</strong>
     </h4>
     <button type="button" class="close close-button" (click)="closeDetails($event)" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
     <br>
-    <p>Name: <strong>{{ detailsData.name }}</strong></p>
-    <p>
-      <span>ID: {{ detailsData.id }}</span>
-    </p>
-    <p *ngIf="detailsData.newlyCreated">Newly created</p>
-    <p>Location:</p>
-    <ul>
-      <li>Lat: {{ detailsData.location.lat }}</li>
-      <li>Lng: {{ detailsData.location.lng }}</li>
-    </ul>
+    <div *ngIf="detailsData?.newlyCreated; else elseBlock" class="text-center">
+      <h5>This restaurant has no ratings :( </h5>
+      <p *ngIf="!isAuthenticated()">Please login or register to leave your rating</p>
+      <input *ngIf="isAuthenticated()" type="button" class="btn btn-outline-info text-center opinion-button" value="Leave your opinion"
+        (click)="createRating()">
+    </div>
+
+    <ng-template #elseBlock>
+      <div *ngFor="let rating of ratings">
+        <div class="list-group-item">
+          {{ rating.id}}
+          <strong> {{ rating.ingredientName.charAt(0).toUpperCase() + rating.ingredientName.slice(1) }}</strong> Up: {{ rating.thumbUp}}
+          Down: {{ rating.thumbDown }}
+        </div>
+      </div>
+    </ng-template>
+    <div *ngIf="ingredients !== undefined && ingredients !== null">
+     Choose food type:
+      <select class="custom-select">
+        <option *ngFor="let ing of ingredients" value="ing.id">{{ ing.name }}</option>
+      </select>
+      , now leave your opinion
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-success">
+          <input type="radio" name="options" id="ok" autocomplete="off">Good
+        </label>
+        <label class="btn btn-danger">
+          <input type="radio" name="options" id="nok" autocomplete="off">Bad
+        </label>
+      </div>
+       <button class="btn btn-warning">Save Opinion</button>
+    </div>
   </div>
 </div>
