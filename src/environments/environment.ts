@@ -55,5 +55,7 @@ export const environment = {
    * WiP!
    * Get restaurants by foodType. Use '/restaurant/type/{foodType}'
    */
-  restaurantByFoodEndpoint: '/restaurant/type/'
+  restaurantByFoodEndpoint: '/restaurant/type/',
+
+  restaurantFoodTypesEndpoint: '/foodType'
 };

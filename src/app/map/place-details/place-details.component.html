@@ -1,4 +1,4 @@
-<div class="card box-shadow details-panel">
+<div id="card" class="card box-shadow details-panel">
   <div class="loader" [hidden]="detailsData && detailsData !== null">
   </div>
   <div>
@@ -54,6 +54,43 @@
         </div>
         <button class="btn btn-warning">Save Opinion</button>
       </div> -->
+    <h4 class="text-center">
+      <strong id="barname" class="details-name">{{ detailsData?.name }}</strong>
+    </h4>
+    <button type="button" class="close close-button" (click)="closeDetails($event)" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <br>
+    <div *ngIf="detailsData?.newlyCreated; else elseBlock" class="text-center">
+      <h5 id="norating">This restaurant has no ratings :( </h5>
+      <p *ngIf="!isAuthenticated()">Please login or register to leave your rating</p>
+      <input *ngIf="isAuthenticated()" type="button" class="btn btn-outline-info text-center opinion-button" value="Leave your opinion"
+        (click)="createRating()">
+    </div>
+    <br>
+
+    <ng-template #elseBlock>
+      <div *ngFor="let rating of ratings">
+        <div class="list-group-item">
+          {{ rating.id}}
+          <strong> {{ rating.ingredientName.charAt(0).toUpperCase() + rating.ingredientName.slice(1) }}</strong> Up: {{ rating.thumbUp}}
+          Down: {{ rating.thumbDown }}
+        </div>
+      </div>
+    </ng-template>
+    <div *ngIf="ingredients !== undefined && ingredients !== null">
+     <span id="foodtype">Choose food type:</span>
+      <select class="custom-select">
+        <option *ngFor="let ing of ingredients" value="ing.id">{{ ing.name }}</option>
+      </select>
+      <div class="btn-group" data-toggle="buttons">
+        <label>
+          <a name="options" id="ok"><span id="likes">12</span><img class="options" src="\assets/images/thumb-up-button.png"/> </a>
+        </label>
+        <label>
+          <a name="options" id="nok"><span id="dislikes">12</span><img class="options" src="\assets/images/thumb-down-button.png"/> </a>
+        </label>
+      </div>
     </div>
   </div>
 </div>

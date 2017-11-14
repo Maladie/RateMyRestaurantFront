@@ -1,5 +1,8 @@
 {
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe",
     "tslint.alwaysShowRuleFailuresAsWarnings": true,
-    "typescript.useCodeSnippetsOnMethodSuggest": true
+    "typescript.useCodeSnippetsOnMethodSuggest": true,
+    "css.remoteStyleSheets": [
+        "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+    ]
 }

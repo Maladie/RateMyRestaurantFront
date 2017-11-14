@@ -64,7 +64,7 @@ export class PlaceDetailsComponent implements OnInit {
     this.detailsData = undefined;
     this.webApi.savePlaceDetails(deailsCopy).subscribe(resp => {
       this.detailsData = resp as PlaceDetailsData;
-      this.allFoodTypes = this.removeDuplicades(this.detailsData.foodTypes);
+      // this.allFoodTypes = this.removeDuplicades(this.detailsData.foodTypes);
       // remove duplicates....
       // let foods = this.allFoodTypes.concat(this.detailsData.foodTypes)
       // this.allFoodTypes = Array.of(new Set(foods));
@@ -75,14 +75,14 @@ export class PlaceDetailsComponent implements OnInit {
     });
   }
   // TODO
-  removeDuplicades(array: FoodType[]) {
-    for (let i = array.length - 1; i >= 0; i--) {
-      for (let j = 0; j < this.allFoodTypes.length; j++) {
-        if (array[i] === this.allFoodTypes[j]) {
-          array.splice(i, 1);
-        }
-      }
-    }
-    return array;
-  }
+  // removeDuplicades(array: FoodType[]) {
+  //   for (let i = array.length - 1; i >= 0; i--) {
+  //     for (let j = 0; j < this.allFoodTypes.length; j++) {
+  //       if (array[i] === this.allFoodTypes[j]) {
+  //         array.splice(i, 1);
+  //       }
+  //     }
+  //   }
+  //   return array;
+  // }
 }
