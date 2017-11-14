@@ -1,7 +1,8 @@
 import { PlacePin } from '../pin/placePin';
+import { FoodType } from '../../shared/food-type';
 
 export class PlaceDetailsData extends PlacePin {
-    foodTypes: object[];
+    foodTypes: FoodType[];
     newlyCreated: boolean;
     ingredientRatings: object[];
     constructor() {

@@ -7,6 +7,7 @@ import { RegisterData } from '../register/register-data';
 import { LoginData } from '../login/login-data';
 import { ResponseInfo } from './response-info';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { FoodType } from './food-type';
 
 @Injectable()
 export class WebApiObservableService {
@@ -53,7 +54,11 @@ export class WebApiObservableService {
      * @param placeDetails Place details to save in DB
      */
     savePlaceDetails(placeDetails: PlaceDetailsData) {
-        return this._http.post(environment.serverEndpoint + environment.restaurantSaveEndpoint, placeDetails);
+    
+        return this._http.post(environment.serverEndpoint + environment.restaurantSaveEndpoint,
+             JSON.stringify(placeDetails),
+              {headers: this.JSONHeader}
+            );
     }
 
     /**
@@ -95,6 +100,12 @@ export class WebApiObservableService {
     getMapStyle() {
         return this._http.get('./assets/json/map-style.json');
     }
+    getFoodTypes() {
+        return this._http.get(environment.serverEndpoint + environment.restaurantFoodTypesEndpoint);
+    }
+    // addFoodType(foodType: FoodType) {
+    //     return this._http.post(environment.serverEndpoint + environment.restaurantFoodTypesEndpoint + '/add',);
+    // }
 }
 
 
