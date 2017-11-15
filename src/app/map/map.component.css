@@ -23,8 +23,8 @@ agm-map {
   overflow-y: scroll;
 }
 .loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #dd1515; /* Blue */
+  border: 16px solid #f3f3f3; 
+  border-top: 16px solid #972407; 
   border-radius: 50%;
   width: 120px;
   height: 120px;

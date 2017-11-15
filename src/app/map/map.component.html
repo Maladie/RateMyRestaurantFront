@@ -41,7 +41,7 @@
           </agm-circle>
           <div *ngFor="let place of places; let i= index">
             <agm-marker [latitude]="place.location.lat" [longitude]="place.location.lng" label={{i+1}} (mouseOver)="infoEnter($event, infoWindow)"
-              (mouseOut)="infoOut($event, infoWindow)" [markerClickable]=true>
+              (mouseOut)="infoOut($event, infoWindow)" [markerClickable]=true  (markerClick)="showPlaceDetails(i)">
               <agm-info-window #infoWindow>
                 {{getInfo(i)}}
               </agm-info-window>
