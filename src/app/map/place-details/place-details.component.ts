@@ -41,6 +41,7 @@ export class PlaceDetailsComponent implements OnInit {
   getFoodTypes() {
     this.webApi.getFoodTypes().subscribe(resp => {
       this.foodTypesLeft = resp as FoodType[];
+      this.foodTypesLeft = this.foodTypesLeft.filter(item => this.detailsData.foodTypes.every(item2 => item2.id !== item.id));
     }, err => {
       console.log('Error while retrieving food types: ' + err);
     });
@@ -48,6 +49,7 @@ export class PlaceDetailsComponent implements OnInit {
   getIngredients() {
     this.webApi.getIngredients().subscribe(resp => {
       this.ingredientsLeft = resp as IngredientType[];
+      this.ingredientsLeft = this.ingredientsLeft.filter(item => this.detailsData.ingredientRatings.every(item2 => item2.ingredient.id !== item.id));
     }, err => {
       console.log('Error while retrieving ingredients: ' + err);
     });
