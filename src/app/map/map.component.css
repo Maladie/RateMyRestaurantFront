@@ -14,8 +14,8 @@ agm-map {
   background-image: url("https://www.transparenttextures.com/patterns/classy-fabric.png");
 }
 
-#placeItem {
-  padding-bottom: 4px;
+.list-group {
+  padding-bottom: 4px !important;
 }
 
 
