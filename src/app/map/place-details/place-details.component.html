@@ -70,17 +70,17 @@
         </p>
         <div id="ingredient-form" *ngIf="addingIngredient">
           <span class="foodtype">Choose ingredient: </span>
-          <select class="custom-select">
+          <select class="custom-select" [(ngModel)]="selectedValueNewRating">
             <option *ngFor="let ing of ingredientsLeft" value="ing.id">{{ ing.name }}</option>
           </select>
           <span class="food-type-paragraph">vote: </span>
           <div class="btn-group" data-toggle="buttons">
             <label>
-              <a name="options" (click)="newRatingThumbUp()">
+              <a name="options" (click)="newRating(true)">
                 <img class="options" src="./assets/images/thumb-up-button.png"> </a>
             </label>
             <label>
-              <a name="options" class="new-rating-thumb" (click)="newRatingThumbDown()">
+              <a name="options" class="new-rating-thumb" (click)="newRating(false)">
                 <img class="options" src="./assets/images/thumb-down-button.png"> </a>
             </label>
           </div>

@@ -21,6 +21,7 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
   foodTypesLeft: Array<FoodType>;
   ingredientsLeft: Array<IngredientType>;
   selectedValue;
+  selectedValueNewRating;
   foodAddedLoading = true;
   addingFoodType = false;
   ingredientAddedLoading = true;
@@ -109,33 +110,16 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
     this.addingFoodType = true;
   }
 
-  newRatingThumbUp() {
+  newRating(upVoted: boolean) {
+    this.addingIngredient = false; // hide form
     this.ingredientAddedLoading = false; // show loading animation
     // TODO process rating
-    this.ingredientAddedLoading = true; // hide after rating add
-    this.addingIngredient = false; // hide form
-  }
-  newRatingThumbDown() {
-    this.ingredientAddedLoading = false; // show loading animation
-    // TODO process rating
-    this.ingredientAddedLoading = true; // hide after rating add
-    this.addingIngredient = false; // hide form
-  }
+    const ing = this.selectedValueNewRating as IngredientType;
 
+
+    this.ingredientAddedLoading = true; // hide after rating add
+  }
   showIngredientAddForm() {
     this.addingIngredient = true; // show form
   }
-
-
-  // TODO
-  // removeDuplicades(array: FoodType[]) {
-  //   for (let i = array.length - 1; i >= 0; i--) {
-  //     for (let j = 0; j < this.allFoodTypes.length; j++) {
-  //       if (array[i] === this.allFoodTypes[j]) {
-  //         array.splice(i, 1);
-  //       }
-  //     }
-  //   }
-  //   return array;
-  // }
 }
