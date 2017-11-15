@@ -1,17 +1,18 @@
-import { Component, OnInit, Output, Input, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { PlaceDetailsData } from './place-details-data';
 import { AuthService } from '../../shared/auth.service';
 import { IngredientRating } from '../../shared/ingredient-rating';
 import { WebApiObservableService } from '../../shared/web-api-obserable.service';
 import { IngredientType } from '../../shared/ingredient-type';
 import { FoodType } from '../../shared/food-type';
+import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-place-details',
   templateUrl: './place-details.component.html',
   styleUrls: ['./place-details.component.css']
 })
-export class PlaceDetailsComponent implements OnInit {
+export class PlaceDetailsComponent implements OnInit, OnChanges {
   @Output() showDetails = new EventEmitter<boolean>();
   @Input() detailsData: PlaceDetailsData;
   show: boolean;
@@ -28,9 +29,15 @@ export class PlaceDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getFoodTypes();
-    this.getIngredients();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.detailsData.currentValue !== undefined) {
+      this.getFoodTypes();
+      this.getIngredients();
+    }
+  }
+
   closeDetails($event) {
     this.showDetails.emit(this.show);
   }
@@ -41,7 +48,9 @@ export class PlaceDetailsComponent implements OnInit {
   getFoodTypes() {
     this.webApi.getFoodTypes().subscribe(resp => {
       this.foodTypesLeft = resp as FoodType[];
-      this.foodTypesLeft = this.foodTypesLeft.filter(item => this.detailsData.foodTypes.every(item2 => item2.id !== item.id));
+      if (this.detailsData.foodTypes !== null) {
+        this.foodTypesLeft = this.foodTypesLeft.filter(item => this.detailsData.foodTypes.every(item2 => item2.id !== item.id));
+      }
     }, err => {
       console.log('Error while retrieving food types: ' + err);
     });
@@ -49,7 +58,9 @@ export class PlaceDetailsComponent implements OnInit {
   getIngredients() {
     this.webApi.getIngredients().subscribe(resp => {
       this.ingredientsLeft = resp as IngredientType[];
-      this.ingredientsLeft = this.ingredientsLeft.filter(item => this.detailsData.ingredientRatings.every(item2 => item2.ingredient.id !== item.id));
+      if (this.detailsData.ingredientRatings !== null) {
+        this.ingredientsLeft = this.ingredientsLeft.filter(item => this.detailsData.ingredientRatings.every(item2 => item2.ingredient.id !== item.id));
+      }
     }, err => {
       console.log('Error while retrieving ingredients: ' + err);
     });

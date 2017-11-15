@@ -61,7 +61,7 @@
       <div>
         <hr class="separator">
       </div>
-      <div>
+      <div [hidden]="ingredientsLeft?.length ==0">
         <p id="paraghraph-missing-ingredient">Missing ingredients ratings? 
           <button [hidden]="isAuthenticated()== false" class="btn btn-warning" id="button-add-ingredient" (click)="showIngredientAddForm()">Click to add</button>
           <!-- TODO adding animation, button disabled if aleardy voted -->
