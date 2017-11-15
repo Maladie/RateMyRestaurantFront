@@ -27,10 +27,14 @@ export class LoginComponent implements OnInit {
     this._auth.loginUser(this.model).then(ok => {
       console.log('ok ' + JSON.stringify(ok));
       this.result = ok as ResponseInfo;
+      // temporary
+      sessionStorage.setItem('username', this.model.username);
       this._router.navigate(['/']);
     }, nok =>{
       console.log('nok ' +nok);
       this.result = nok.error as ResponseInfo;
+      // temporary
+      sessionStorage.removeItem('username');
     });
   }
 }
