@@ -66,29 +66,30 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
     });
   }
   addFoodType() {
-    this.addingFoodType = false;
-    this.foodAddedLoading = true; // show animation
+    this.addingFoodType = false; // hide add foodtype form
+    this.foodAddedLoading = true; // show animation, begin adding
     // add food type
-    this.foodAddedLoading = false; // hide animation
-    // const index = this.selectedValue;
-    // const foodType = this.foodTypesLeft[index];
-    // if (this.detailsData.foodTypes === null) {
-    //   this.detailsData.foodTypes = new Array<FoodType>();
-    // }
-    // this.detailsData.foodTypes.push(foodType);
-    // const deailsCopy = this.detailsData;
-    // this.detailsData = undefined;
-    // this.webApi.savePlaceDetails(deailsCopy).subscribe(resp => {
-    //   this.detailsData = resp as PlaceDetailsData;
-    // this.allFoodTypes = this.removeDuplicades(this.detailsData.foodTypes);
-    // remove duplicates....
-    // let foods = this.allFoodTypes.concat(this.detailsData.foodTypes)
-    // this.allFoodTypes = Array.of(new Set(foods));
-    //   console.log('Food type saved successfully');
-    // }, err => {
-    //   console.log('Error while trying to save place details in DB ' + JSON.stringify(err));
-    //   this.detailsData = deailsCopy;
-    // });
+    const index = this.selectedValue;
+    this.selectedValue = undefined; // reset foodtype form dropdown item index
+    const foodType = this.foodTypesLeft[index]; // get foodtype using index
+    if (this.detailsData.foodTypes === null) {
+      this.detailsData.foodTypes = new Array<FoodType>(); // init array if null
+    }
+    this.detailsData.foodTypes.push(foodType);
+    const deailsCopy = this.detailsData;
+    this.detailsData = undefined; // show loading animation
+
+    this.webApi.savePlaceDetails(deailsCopy).subscribe(resp => {
+      this.detailsData = resp as PlaceDetailsData;
+      // remove foodtype from foodtypesLeft if exists in detailsData.foodTypes array
+      this.foodTypesLeft = this.foodTypesLeft.filter(item => this.detailsData.foodTypes.every(item2 => item2.id !== item.id));
+      console.log('Food type saved successfully');
+      this.foodAddedLoading = false; // hide adding animation
+    }, err => {
+      console.log('Error while trying to save place details in DB ' + JSON.stringify(err));
+      this.detailsData = deailsCopy;
+      this.foodAddedLoading = false; // hide adding animation
+    });
   }
 
   vote(id: number, upVoted: boolean) {
