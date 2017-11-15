@@ -70,7 +70,7 @@
         <div id="ingredient-form" *ngIf="addingIngredient">
           <span class="foodtype">Choose ingredient: </span>
           <select class="custom-select">
-            <option *ngFor="let ing of ingredients" value="ing.id">{{ ing.name }}</option>
+            <option *ngFor="let ing of ingredientsLeft" value="ing.id">{{ ing.name }}</option>
           </select>
           <span class="food-type-paragraph">vote: </span>
           <div class="btn-group" data-toggle="buttons">

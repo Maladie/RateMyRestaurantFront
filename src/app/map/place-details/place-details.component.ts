@@ -29,6 +29,7 @@ export class PlaceDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getFoodTypes();
+    this.getIngredients();
   }
   closeDetails($event) {
     this.showDetails.emit(this.show);
@@ -42,6 +43,13 @@ export class PlaceDetailsComponent implements OnInit {
       this.foodTypesLeft = resp as FoodType[];
     }, err => {
       console.log('Error while retrieving food types: ' + err);
+    });
+  }
+  getIngredients() {
+    this.webApi.getIngredients().subscribe(resp => {
+      this.ingredientsLeft = resp as IngredientType[];
+    }, err => {
+      console.log('Error while retrieving ingredients: ' + err);
     });
   }
   addFoodType() {
@@ -72,7 +80,7 @@ export class PlaceDetailsComponent implements OnInit {
 
   vote(id: number, upVoted: boolean) {
     this.webApi.voteOnIngredient(id, upVoted).subscribe(resp => {
-      const index = this.detailsData.ingredientRatings.findIndex(rating =>  rating.ingredient.id === id);
+      const index = this.detailsData.ingredientRatings.findIndex(rating => rating.ingredient.id === id);
       this.detailsData.ingredientRatings[index] = resp as IngredientRating;
       console.log('Vote success!  Rating id: ' + id + ' restaurantId: ' + this.detailsData.id);
     }, err => {
@@ -103,6 +111,8 @@ export class PlaceDetailsComponent implements OnInit {
   showIngredientAddForm() {
     this.addingIngredient = true; // show form
   }
+
+
   // TODO
   // removeDuplicades(array: FoodType[]) {
   //   for (let i = array.length - 1; i >= 0; i--) {
