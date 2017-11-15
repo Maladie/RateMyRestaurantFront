@@ -5,12 +5,18 @@ agm-map {
 #map {
   display: block;
   margin-top: 5px;
+  border-style: solid;
+  border-color: #A34441;
 
 }
 
 #background {
   background-color: #f0e5b7;
   background-image: url("https://www.transparenttextures.com/patterns/classy-fabric.png");
+}
+
+#placeItem {
+  padding-bottom: 4px;
 }
 
 
