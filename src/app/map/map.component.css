@@ -5,9 +5,8 @@ agm-map {
 #map {
   display: block;
   margin-top: 5px;
-  border-style: dashed;
+  border-style: solid;
   border-color: #A34441;
-  
 }
 
 #background {
