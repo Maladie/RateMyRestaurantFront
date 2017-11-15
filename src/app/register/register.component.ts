@@ -1,13 +1,9 @@
-import { NgModule, Component, Pipe, OnInit, Input } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { LoginData } from '../login/login-data';
-import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { EqualityValidatorDirective } from '../shared/equality-validator.directive';
-import { RegisterData } from './register-data';
-import { WebApiObservableService } from '../shared/web-api-obserable.service';
-import { ResponseInfo } from '../shared/response-info';
+import {Component, OnInit} from "@angular/core";
+import {HttpHeaders} from "@angular/common/http";
+import {FormGroup, FormControl, Validators} from "@angular/forms";
+import {RegisterData} from "./register-data";
+import {WebApiObservableService} from "../shared/web-api-obserable.service";
+import {ResponseInfo} from "../shared/response-info";
 
 @Component({
   selector: 'app-register',
