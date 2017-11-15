@@ -114,6 +114,8 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
     this.addingIngredient = false; // hide form
     this.ingredientAddedLoading = false; // show loading animation
     // TODO process rating
+
+    
     const ing = this.selectedValueNewRating as IngredientType;
 
 
