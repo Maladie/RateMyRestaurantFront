@@ -11,7 +11,7 @@
       </button>
     </div>
     <div class="card-body">
-      <div >
+      <div>
         <p class="food-type-paragraph">Here you can taste following types of food:</p>
         <span *ngFor="let foodType of detailsData?.foodTypes" class="badge badge-warning food-type-bagde"> #{{ foodType.name }} </span>
       </div>
@@ -39,12 +39,12 @@
           </div>
         </div>
       </div>
-      <div>
-        <hr class="separator">
-      </div>
       <div [hidden]="foodTypesLeft?.length ==0">
-        <p id="paraghraph-missing-food">Missing food types? 
-          <button [hidden]="isAuthenticated()== false" class="btn btn-warning" id="button-add-food"(click)="showFoodTypeAddForm()">Click to add</button>
+        <div>
+          <hr class="separator">
+        </div>
+        <p id="paraghraph-missing-food">Missing food types?
+          <button [hidden]="isAuthenticated()== false" class="btn btn-warning" id="button-add-food" (click)="showFoodTypeAddForm()">Click to add</button>
           <!-- TODO adding animation, button disabled if aleardy voted -->
           <span [hidden]="foodAddedLoading == false" class="food-add-loading"></span>
         </p>
@@ -54,7 +54,8 @@
             <select class="custom-select" [(ngModel)]="selectedValue">
               <option *ngFor="let food of foodTypesLeft; let i= index;" value={{i}}>{{ food.name }}</option>
             </select>
-            <input id="button-add-food-type" type="button" class="btn btn-warning" value="Save" (click)="addFoodType()">
+            <input id="button-add-food-type" [disabled]="selectedValue === undefined || selectedValue === null" type="button" class="btn btn-warning"
+              value="Save" (click)="addFoodType()">
           </div>
         </div>
       </div>
@@ -62,7 +63,7 @@
         <hr class="separator">
       </div>
       <div [hidden]="ingredientsLeft?.length ==0">
-        <p id="paraghraph-missing-ingredient">Missing ingredients ratings? 
+        <p id="paraghraph-missing-ingredient">Missing ingredients ratings?
           <button [hidden]="isAuthenticated()== false" class="btn btn-warning" id="button-add-ingredient" (click)="showIngredientAddForm()">Click to add</button>
           <!-- TODO adding animation, button disabled if aleardy voted -->
           <span [hidden]="ingredientAddedLoading == false" class="ingredient-add-loading"></span>
