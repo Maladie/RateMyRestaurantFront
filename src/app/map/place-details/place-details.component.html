@@ -1,96 +1,107 @@
 <div id="card" class="card box-shadow details-panel">
   <div class="loader" [hidden]="detailsData && detailsData !== null">
   </div>
-  <div>
+  <div *ngIf="detailsData">
     <div class="card-header">
       <h4 class="text-center">
-        <strong class="details-name">{{ detailsData?.name }}</strong>
+        <strong id="barname" class="details-name">{{ detailsData?.name }}</strong>
       </h4>
       <button type="button" class="close close-button" (click)="closeDetails($event)" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="card-body">
-      <div *ngIf="detailsData.foodTypes && detailsData?.foodTypes !== null && detailsData?.foodTypes?.length > 0; else elseIfBlock">
-        Here you can taste following types of food: <br>
-        <span *ngFor="let foodType of detailsData.foodTypes" class="badge badge-info foodType"> {{ foodType.name }} </span>
+      <div *ngIf="detailsData.foodTypes && detailsData.foodTypes !== null && detailsData?.foodTypes.length > 0">
+        <p class="food-type-paragraph">Here you can taste following types of food:</p>
+        <span *ngFor="let foodType of detailsData.foodTypes" class="badge badge-warning food-type-bagde"> #{{ foodType.name }} </span>
       </div>
-      <div #elseIfBlock *ngIf="allFoodTypes">
-        Add missing food type
-        <select class="custom-select" [(ngModel)]="selectedValue">
-          <option *ngFor="let food of allFoodTypes; let i= index;" value={{i}}>{{ food.name }}</option>
-        </select>
-        <input type="button" class="btn btn-success" value="Add" (click)="addFoodType()">
+      <div>
+        <hr class="separator">
       </div>
-      <!-- <div *ngIf="detailsData?.newlyCreated; else elseBlock" class="text-center">
-        <h5>This restaurant has no ratings :( </h5>
-        <p *ngIf="!isAuthenticated()">Please login or register to leave your rating</p>
-        <input *ngIf="isAuthenticated()" type="button" class="btn btn-outline-info text-center opinion-button" value="Leave your opinion"
-          (click)="createRating()">
+      <div *ngIf="detailsData.ingredientRatings.length == 0; else showRatingsBlock" class="text-center">
+        <h5 id="norating">This restaurant has no ratings :( </h5>
+        <p class="authentication-info" *ngIf="!isAuthenticated()">Please login or register to leave your opinion</p>
       </div>
-
-      <ng-template #elseBlock>
-        <div *ngFor="let rating of ratings">
-          <div class="list-group-item">
-            {{ rating.id}}
-            <strong> {{ rating.ingredientName.charAt(0).toUpperCase() + rating.ingredientName.slice(1) }}</strong> Up: {{ rating.thumbUp}}
-            Down: {{ rating.thumbDown }}
+      <ng-template #showRatingsBlock>
+        <p class="rating-text">Leave your opinion: </p>
+        <div>
+          <div *ngFor="let rating of detailsData.ingredientRatings; trackBy: trackByFn">
+            <span class="rating-text">{{ rating.ingredient.name }}:
+              <div class="rating-position">
+                <a name="options" (click)="vote(rating.id, true)">
+                  <span class="likes">{{ rating.thumb.thumbsUp }}</span>
+                  <img class="options" src="./assets/images/thumb-up-button.png"> </a>
+                <a name="options" (click)="vote(rating.id, false)">
+                  <span class="dislikes">{{ rating.thumb.thumbsDown }}</span>
+                  <img class="options" src="./assets/images/thumb-down-button.png"> </a>
+              </div>
+            </span>
           </div>
         </div>
       </ng-template>
-      <div *ngIf="ingredients !== undefined && ingredients !== null">
-        Choose food type:
+      <div>
+        <hr class="separator">
+      </div>
+      <div [hidden]="foodTypesLeft?.length ==0">
+        <p id="paraghraph-missing-food">Missing food type? 
+          <button class="btn btn-warning" id="button-add-food"(click)="showFoodTypeAddForm()">Click to add</button>
+          <!-- TODO adding animation, button disabled if aleardy voted -->
+          <span [hidden]="foodAddedLoading == false" class="food-add-loading"></span>
+        </p>
+        <div *ngIf="addingFoodType">
+          <div>
+            <span class="foodtype">Choose food type: </span>
+            <select class="custom-select" [(ngModel)]="selectedValue">
+              <option *ngFor="let food of foodTypesLeft; let i= index;" value={{i}}>{{ food.name }}</option>
+            </select>
+            <input id="button-add-food-type" type="button" class="btn btn-warning" value="Save" (click)="addFoodType()">
+          </div>
+        </div>
+      </div>
+      <div>
+        <hr class="separator">
+      </div>
+      <div>
+        <p id="paraghraph-missing-ingredient">Missing ingredient rating? 
+          <button class="btn btn-warning" id="button-add-ingredient" (click)="showIngredientAddForm()">Click to add</button>
+          <!-- TODO adding animation, button disabled if aleardy voted -->
+          <span [hidden]="ingredientAddedLoading == false" class="ingredient-add-loading"></span>
+        </p>
+        <div id="ingredient-form" *ngIf="addingIngredient">
+          <span class="foodtype">Choose ingredient: </span>
+          <select class="custom-select">
+            <option *ngFor="let ing of ingredients" value="ing.id">{{ ing.name }}</option>
+          </select>
+          <span class="food-type-paragraph">vote: </span>
+          <div class="btn-group" data-toggle="buttons">
+            <label>
+              <a name="options" (click)="newRatingThumbUp()">
+                <img class="options" src="./assets/images/thumb-up-button.png"> </a>
+            </label>
+            <label>
+              <a name="options" class="new-rating-thumb" (click)="newRatingThumbDown()">
+                <img class="options" src="./assets/images/thumb-down-button.png"> </a>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- <div *ngIf="ingredientsLeft?.length == 0">
+        <span id="ingredient-text">Choose ingredient: </span>
         <select class="custom-select">
           <option *ngFor="let ing of ingredients" value="ing.id">{{ ing.name }}</option>
         </select>
-        , now leave your opinion
         <div class="btn-group" data-toggle="buttons">
-          <label class="btn btn-success">
-            <input type="radio" name="options" id="ok" autocomplete="off">Good
+          <label>
+            <a name="options">
+              <span class="likes">12</span>
+              <img class="options" src="./assets/images/thumb-up-button.png"> </a>
           </label>
-          <label class="btn btn-danger">
-            <input type="radio" name="options" id="nok" autocomplete="off">Bad
+          <label>
+            <a name="options">
+              <span class="dislikes">12</span>
+              <img class="options" src="./assets/images/thumb-down-button.png"> </a>
           </label>
         </div>
-        <button class="btn btn-warning">Save Opinion</button>
       </div> -->
-    <h4 class="text-center">
-      <strong id="barname" class="details-name">{{ detailsData?.name }}</strong>
-    </h4>
-    <button type="button" class="close close-button" (click)="closeDetails($event)" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <br>
-    <div *ngIf="detailsData?.newlyCreated; else elseBlock" class="text-center">
-      <h5 id="norating">This restaurant has no ratings :( </h5>
-      <p *ngIf="!isAuthenticated()">Please login or register to leave your rating</p>
-      <input *ngIf="isAuthenticated()" type="button" class="btn btn-outline-info text-center opinion-button" value="Leave your opinion"
-        (click)="createRating()">
-    </div>
-    <br>
-
-    <ng-template #elseBlock>
-      <div *ngFor="let rating of ratings">
-        <div class="list-group-item">
-          {{ rating.id}}
-          <strong> {{ rating.ingredientName.charAt(0).toUpperCase() + rating.ingredientName.slice(1) }}</strong> Up: {{ rating.thumbUp}}
-          Down: {{ rating.thumbDown }}
-        </div>
-      </div>
-    </ng-template>
-    <div *ngIf="ingredients !== undefined && ingredients !== null">
-     <span id="foodtype">Choose food type:</span>
-      <select class="custom-select">
-        <option *ngFor="let ing of ingredients" value="ing.id">{{ ing.name }}</option>
-      </select>
-      <div class="btn-group" data-toggle="buttons">
-        <label>
-          <a name="options" id="ok"><span id="likes">12</span><img class="options" src="\assets/images/thumb-up-button.png"/> </a>
-        </label>
-        <label>
-          <a name="options" id="nok"><span id="dislikes">12</span><img class="options" src="\assets/images/thumb-down-button.png"/> </a>
-        </label>
-      </div>
     </div>
   </div>
-</div>
