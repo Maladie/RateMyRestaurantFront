@@ -58,7 +58,8 @@
       </div>
 
     </div>
-    <div class="col-md-4 place-list">
+    <div id="placeList" class="col-md-4 place-list">
+      <br>
       <div *ngFor="let placeDetail of places; let i= index" class="list-group">
         <!-- <app-place-detail-card [placeIndex]="i + 1" [placeName]="placeDetail.name"></app-place-detail-card> -->
         <div class="list-group-item list-group-item-action" (click)="showPlaceDetails(i)" id="placeDetail.id" role="tab" aria-controls="i">
