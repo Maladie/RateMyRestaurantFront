@@ -117,7 +117,6 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
     const ing = this.selectedValueNewRating as IngredientType;
 
 
-    this.webApi.
     this.ingredientAddedLoading = true; // hide after rating add
   }
   showIngredientAddForm() {
