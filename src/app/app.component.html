@@ -12,6 +12,9 @@
     <div class="navbar-nav navbar-right" id="navbarRight">
       <div>
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item" [hidden]="isLoggedIn() == false">
+                <span class="username-text">{{ getUsername() }}</span>
+              </li>
           <li class="nav-item">
             <div class="nav-item navbar-nav navbar-right" style="margin-right: 5px">
               <img src="./assets/images/login.png" height="45px" id="login"/>

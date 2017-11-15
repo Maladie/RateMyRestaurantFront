@@ -17,4 +17,8 @@ export class AppComponent {
   isLoggedIn() {
     return this._auth.isAuthenticated();
   }
+
+  getUsername() {
+    return sessionStorage.getItem('username');
+  }
 }
