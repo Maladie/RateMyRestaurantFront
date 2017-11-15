@@ -33,7 +33,7 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.detailsData.currentValue !== undefined) {
+    if (changes.detailsData.currentValue !== undefined && changes.detailsData.currentValue !== null) {
       this.getFoodTypes();
       this.getIngredients();
     }
@@ -115,7 +115,7 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
     this.ingredientAddedLoading = false; // show loading animation
     // TODO process rating
 
-    
+
     const ing = this.selectedValueNewRating as IngredientType;
 
 
