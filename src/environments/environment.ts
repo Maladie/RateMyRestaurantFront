@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  serverEndpoint: 'http://localhost:8088/',
+  serverEndpoint: 'http://localhost:8080/',
   /**
    * Get all restaurants in radius
    * Required rarameters: lat, lng, radius: number
@@ -23,10 +23,8 @@ export const environment = {
    * Post new ingredient type { 'id': '', 'name': ''}
    */
   ingredientAddEndpoint: '/ingredients/add',
-  /**
-   * Get restaurant ingredient ratings where ingredient /rating/{ingredientName}
-   */
-  ratingEndpoint: '/rating/', //  - string
+ 
+  ratingEndpoint: '/rating/rate', //  - string
   /**
    * Post NewUser credentials { username: '', password: ''} // more in the future...
    */

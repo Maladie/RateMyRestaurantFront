@@ -28,11 +28,11 @@
           <div *ngFor="let rating of detailsData?.ingredientRatings; let i = index">
             <span class="rating-text">{{ rating.ingredient.name }}:
               <div class="rating-position">
-                <a name="options" (click)="vote(rating.ingredient.id, true)">
-                  <span class="likes">{{ rating.thumb.thumbsUp }}</span>
+                <span class="likes">{{ rating.thumb.thumbsUp }}</span>
+                <a *ngIf="isAuthenticated()" name="options" (click)="vote(rating.ingredient.id, true)">
                   <img class="options" src="./assets/images/thumb-up-button.png"> </a>
-                <a name="options" (click)="vote(rating.ingredient.id, false)">
                   <span class="dislikes">{{ rating.thumb.thumbsDown }}</span>
+                <a *ngIf="isAuthenticated()" name="options" (click)="vote(rating.ingredient.id, false)">
                   <img class="options" src="./assets/images/thumb-down-button.png"> </a>
               </div>
             </span>
@@ -71,7 +71,7 @@
         <div id="ingredient-form" *ngIf="addingIngredient">
           <span class="foodtype">Choose ingredient: </span>
           <select class="custom-select" [(ngModel)]="selectedValueNewRating">
-            <option *ngFor="let ing of ingredientsLeft" value="ing.id">{{ ing.name }}</option>
+            <option *ngFor="let ing of ingredientsLeft" value={{ing.id}}>{{ ing.name }}</option>
           </select>
           <span class="food-type-paragraph">vote: </span>
           <div class="btn-group" data-toggle="buttons">
@@ -87,7 +87,7 @@
         </div>
       </div>
       <div *ngIf="isAuthenticated()== false" class="text-center">
-        <p class="authentication-info">Login or register to add them</p>
+        <p class="authentication-info">Login or register to rate, add missing food or ingredient ratings.</p>
       </div>
     </div>
   </div>

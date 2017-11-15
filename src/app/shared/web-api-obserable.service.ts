@@ -103,11 +103,12 @@ export class WebApiObservableService {
     getFoodTypes() {
         return this._http.get(environment.serverEndpoint + environment.restaurantFoodTypesEndpoint);
     }
-    // addFoodType(foodType: FoodType) {
-    //     return this._http.post(environment.serverEndpoint + environment.restaurantFoodTypesEndpoint + '/add',);
-    // }
-    voteOnIngredient(id: number, vote: boolean) {
-        const newVote = { 'id': id.toString(), 'good': vote ? 'true' : 'false' };
+    voteOnIngredient(id: number, restaurantId: string, vote: boolean) {
+        const newVote = { 'ingredientId': id.toString(), 'restaurantId': restaurantId, 'good': vote ? 'true' : 'false' };
+        return this._http.post(environment.serverEndpoint + environment.ratingEndpoint, newVote, { headers: this.JSONHeader });
+    }
+    addIngredientRatingToRestaurant(ingredientId: number, restaurantId: string, vote: boolean) {
+        const newVote = { 'ingredientId': ingredientId.toString(), 'restaurantId': restaurantId, 'good': vote ? 'true' : 'false' };
         return this._http.post(environment.serverEndpoint + environment.ratingEndpoint, newVote, { headers: this.JSONHeader });
     }
 }
