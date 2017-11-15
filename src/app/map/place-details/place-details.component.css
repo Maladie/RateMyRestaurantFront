@@ -125,6 +125,13 @@
   color: #34b90c;
 }
 
+.rating-title {
+  display: inline-block;
+  font-family: 'Lobster', cursive;
+  font-size: 24px;
+  color: #ffa50f;
+  text-decoration: underline;
+}
 .rating-text {
   display: inline-block;
   font-family: 'Lobster', cursive;

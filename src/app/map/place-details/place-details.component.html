@@ -11,40 +11,40 @@
       </button>
     </div>
     <div class="card-body">
-      <div *ngIf="detailsData.foodTypes && detailsData.foodTypes !== null && detailsData?.foodTypes.length > 0">
+      <div >
         <p class="food-type-paragraph">Here you can taste following types of food:</p>
-        <span *ngFor="let foodType of detailsData.foodTypes" class="badge badge-warning food-type-bagde"> #{{ foodType.name }} </span>
+        <span *ngFor="let foodType of detailsData?.foodTypes" class="badge badge-warning food-type-bagde"> #{{ foodType.name }} </span>
       </div>
       <div>
         <hr class="separator">
       </div>
-      <div *ngIf="detailsData.ingredientRatings.length == 0; else showRatingsBlock" class="text-center">
+      <!-- <div *ngIf="detailsData.ingredientRatings.length == 0; else showRatingsBlock" class="text-center">
         <h5 id="norating">This restaurant has no ratings :( </h5>
         <p class="authentication-info" *ngIf="!isAuthenticated()">Please login or register to leave your opinion</p>
-      </div>
-      <ng-template #showRatingsBlock>
-        <p class="rating-text">Leave your opinion: </p>
+      </div> -->
+      <div #showRatingsBlock>
+        <p class="rating-title">Ingredient ratings: </p>
         <div>
-          <div *ngFor="let rating of detailsData.ingredientRatings; trackBy: trackByFn">
+          <div *ngFor="let rating of detailsData?.ingredientRatings; let i = index">
             <span class="rating-text">{{ rating.ingredient.name }}:
               <div class="rating-position">
-                <a name="options" (click)="vote(rating.id, true)">
+                <a name="options" (click)="vote(rating.ingredient.id, true)">
                   <span class="likes">{{ rating.thumb.thumbsUp }}</span>
                   <img class="options" src="./assets/images/thumb-up-button.png"> </a>
-                <a name="options" (click)="vote(rating.id, false)">
+                <a name="options" (click)="vote(rating.ingredient.id, false)">
                   <span class="dislikes">{{ rating.thumb.thumbsDown }}</span>
                   <img class="options" src="./assets/images/thumb-down-button.png"> </a>
               </div>
             </span>
           </div>
         </div>
-      </ng-template>
+      </div>
       <div>
         <hr class="separator">
       </div>
       <div [hidden]="foodTypesLeft?.length ==0">
-        <p id="paraghraph-missing-food">Missing food type? 
-          <button class="btn btn-warning" id="button-add-food"(click)="showFoodTypeAddForm()">Click to add</button>
+        <p id="paraghraph-missing-food">Missing food types? 
+          <button [hidden]="isAuthenticated()== false" class="btn btn-warning" id="button-add-food"(click)="showFoodTypeAddForm()">Click to add</button>
           <!-- TODO adding animation, button disabled if aleardy voted -->
           <span [hidden]="foodAddedLoading == false" class="food-add-loading"></span>
         </p>
@@ -62,8 +62,8 @@
         <hr class="separator">
       </div>
       <div>
-        <p id="paraghraph-missing-ingredient">Missing ingredient rating? 
-          <button class="btn btn-warning" id="button-add-ingredient" (click)="showIngredientAddForm()">Click to add</button>
+        <p id="paraghraph-missing-ingredient">Missing ingredients ratings? 
+          <button [hidden]="isAuthenticated()== false" class="btn btn-warning" id="button-add-ingredient" (click)="showIngredientAddForm()">Click to add</button>
           <!-- TODO adding animation, button disabled if aleardy voted -->
           <span [hidden]="ingredientAddedLoading == false" class="ingredient-add-loading"></span>
         </p>
@@ -85,23 +85,8 @@
           </div>
         </div>
       </div>
-      <!-- <div *ngIf="ingredientsLeft?.length == 0">
-        <span id="ingredient-text">Choose ingredient: </span>
-        <select class="custom-select">
-          <option *ngFor="let ing of ingredients" value="ing.id">{{ ing.name }}</option>
-        </select>
-        <div class="btn-group" data-toggle="buttons">
-          <label>
-            <a name="options">
-              <span class="likes">12</span>
-              <img class="options" src="./assets/images/thumb-up-button.png"> </a>
-          </label>
-          <label>
-            <a name="options">
-              <span class="dislikes">12</span>
-              <img class="options" src="./assets/images/thumb-down-button.png"> </a>
-          </label>
-        </div>
-      </div> -->
+      <div *ngIf="isAuthenticated()== false" class="text-center">
+        <p class="authentication-info">Login or register to add them</p>
+      </div>
     </div>
   </div>

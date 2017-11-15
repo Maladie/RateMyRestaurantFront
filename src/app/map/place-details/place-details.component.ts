@@ -59,10 +59,10 @@ export class PlaceDetailsComponent implements OnInit {
     // this.detailsData = undefined;
     // this.webApi.savePlaceDetails(deailsCopy).subscribe(resp => {
     //   this.detailsData = resp as PlaceDetailsData;
-      // this.allFoodTypes = this.removeDuplicades(this.detailsData.foodTypes);
-      // remove duplicates....
-      // let foods = this.allFoodTypes.concat(this.detailsData.foodTypes)
-      // this.allFoodTypes = Array.of(new Set(foods));
+    // this.allFoodTypes = this.removeDuplicades(this.detailsData.foodTypes);
+    // remove duplicates....
+    // let foods = this.allFoodTypes.concat(this.detailsData.foodTypes)
+    // this.allFoodTypes = Array.of(new Set(foods));
     //   console.log('Food type saved successfully');
     // }, err => {
     //   console.log('Error while trying to save place details in DB ' + JSON.stringify(err));
@@ -71,25 +71,16 @@ export class PlaceDetailsComponent implements OnInit {
   }
 
   vote(id: number, upVoted: boolean) {
-    if (id !== undefined) {
-      console.log(id + ' upVoted?: ' + upVoted);
-      this.webApi.voteOnIngredient(id, upVoted).subscribe(resp => {
-        // not helps...
-        // const ing = resp as IngredientRating;
-        // const ingIndex = this.detailsData.ingredientRatings.findIndex(ingredient => ingredient.id === ing.id);
-        // this.detailsData.ingredientRatings.splice(ingIndex, 1, ing);
-
-
-        // bug changes not detected...
-        this.detailsData.ingredientRatings[0] = resp as IngredientRating;
-        console.log('Vote success!  Rating id: ' + id + ' restaurantId: ' + this.detailsData.id);
-      }, err => {
-        console.log('Error while voting!  Rating id: ' + id + ' restaurantId: ' + this.detailsData.id);
-      });
-    }
+    this.webApi.voteOnIngredient(id, upVoted).subscribe(resp => {
+      const index = this.detailsData.ingredientRatings.findIndex(rating =>  rating.ingredient.id === id);
+      this.detailsData.ingredientRatings[index] = resp as IngredientRating;
+      console.log('Vote success!  Rating id: ' + id + ' restaurantId: ' + this.detailsData.id);
+    }, err => {
+      console.log('Error while voting!  Rating id: ' + id + ' restaurantId: ' + this.detailsData.id);
+    });
   }
   trackByFn(index, item) {
-    return index;
+    return item.id;
   }
 
   showFoodTypeAddForm() {
@@ -98,13 +89,13 @@ export class PlaceDetailsComponent implements OnInit {
 
   newRatingThumbUp() {
     this.ingredientAddedLoading = false; // show loading animation
-    //process rating
+    // TODO process rating
     this.ingredientAddedLoading = true; // hide after rating add
     this.addingIngredient = false; // hide form
   }
   newRatingThumbDown() {
     this.ingredientAddedLoading = false; // show loading animation
-    //process rating
+    // TODO process rating
     this.ingredientAddedLoading = true; // hide after rating add
     this.addingIngredient = false; // hide form
   }
