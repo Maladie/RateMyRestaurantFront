@@ -20,7 +20,7 @@ export class WebApiObservableService {
     }
     ping() {
         this._http.get(environment.serverEndpoint + '/isLoggedIn').subscribe(ok => {
-           this.serverStatus = true;
+            this.serverStatus = true;
         }, error => {
             this.serverStatus = false;
         });
@@ -54,11 +54,11 @@ export class WebApiObservableService {
      * @param placeDetails Place details to save in DB
      */
     savePlaceDetails(placeDetails: PlaceDetailsData) {
-    
+
         return this._http.post(environment.serverEndpoint + environment.restaurantSaveEndpoint,
-             JSON.stringify(placeDetails),
-              {headers: this.JSONHeader}
-            );
+            JSON.stringify(placeDetails),
+            { headers: this.JSONHeader }
+        );
     }
 
     /**
@@ -106,6 +106,10 @@ export class WebApiObservableService {
     // addFoodType(foodType: FoodType) {
     //     return this._http.post(environment.serverEndpoint + environment.restaurantFoodTypesEndpoint + '/add',);
     // }
+    voteOnIngredient(id: number, vote: boolean) {
+        const newVote = { 'id': id.toString(), 'good': vote ? 'true' : 'false' };
+        return this._http.post(environment.serverEndpoint + environment.ratingEndpoint, newVote, { headers: this.JSONHeader });
+    }
 }
 
 
