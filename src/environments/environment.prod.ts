@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverEndpoint: 'https://rate-my-restaurant-api.herokuapp.com:8080/',
+  serverEndpoint: 'https://rate-my-restaurant-api.herokuapp.com/',
   /**
    * Get all restaurants in radius
    * Required rarameters: lat, lng, radius: number
