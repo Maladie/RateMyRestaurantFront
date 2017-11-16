@@ -12,7 +12,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "preinstall": "npm install -g http-server",
-    "postinstall": "ng build --target=development"
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {
