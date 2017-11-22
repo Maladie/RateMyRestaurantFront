@@ -21,6 +21,7 @@ import { HttpClient } from '@angular/common/http';
 import { EqualityValidatorDirective } from './shared/equality-validator.directive';
 import { PlaceDetailCardComponent } from './map/place-detail-card/place-detail-card.component';
 import { IngredientRating } from './shared/ingredient-rating';
+import { VotingLockService } from './shared/voting-lock.service';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,10 @@ import { IngredientRating } from './shared/ingredient-rating';
     provide: WebApiObservableService,
     useClass: WebApiObservableService,
     deps: [HttpClient]
+  },
+  {
+    provide: VotingLockService,
+    useClass: VotingLockService
   },
 {
   provide: HTTP_INTERCEPTORS,

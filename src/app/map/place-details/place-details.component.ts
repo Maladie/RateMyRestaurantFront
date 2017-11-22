@@ -6,6 +6,7 @@ import { WebApiObservableService } from '../../shared/web-api-obserable.service'
 import { IngredientType } from '../../shared/ingredient-type';
 import { FoodType } from '../../shared/food-type';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { VotingLockService } from '../../shared/voting-lock.service';
 
 @Component({
   selector: 'app-place-details',
@@ -26,8 +27,9 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
   addingFoodType = false;
   ingredientAddedLoading = true;
   addingIngredient = false;
-  constructor(private auth: AuthService, private webApi: WebApiObservableService, private ref: ChangeDetectorRef) {
-  }
+  votes = Array<number>();
+  constructor(private auth: AuthService, private webApi: WebApiObservableService, private ref: ChangeDetectorRef, private voteLock: VotingLockService) {
+    }
 
   ngOnInit() {
   }
@@ -36,6 +38,7 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
     if (changes.detailsData.currentValue !== undefined && changes.detailsData.currentValue !== null) {
       this.getFoodTypes();
       this.getIngredients();
+      this.updateVoted();
     }
   }
 
@@ -94,14 +97,17 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
   }
 
   vote(id: number, upVoted: boolean) {
-    const restaurantId = this.detailsData.id;
-    this.webApi.voteOnIngredient(restaurantId, id, upVoted).subscribe(resp => {
-      const index = this.detailsData.ingredientRatings.findIndex(rating => rating.ingredient.id === id);
-      this.detailsData.ingredientRatings[index] = resp as IngredientRating;
-      console.log('Vote success!  Rating id: ' + id + ' restaurantId: ' + this.detailsData.id);
-    }, err => {
-      console.log('Error while voting!  Rating id: ' + id + ' restaurantId: ' + this.detailsData.id);
-    });
+      const restaurantId = this.detailsData.id;
+      this.webApi.voteOnIngredient(restaurantId, id, upVoted).subscribe(resp => {
+        const index = this.detailsData.ingredientRatings.findIndex(rating => rating.ingredient.id === id);
+        this.detailsData.ingredientRatings[index] = resp as IngredientRating;
+        this.voteLock.setVoted(restaurantId, id);
+        console.log('Vote success!  Rating id: ' + id + ' restaurantId: ' + this.detailsData.id);
+        this.updateVoted();
+        this.votes.push(id);
+      }, err => {
+        console.log('Error while voting!  Rating id: ' + id + ' restaurantId: ' + this.detailsData.id);
+      });
   }
   trackByFn(index, item) {
     return item.id;
@@ -117,8 +123,8 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
 
     const ingredientId = this.selectedValueNewRating;
     const restaurantId = this.detailsData.id;
-    this.webApi.addIngredientRatingToRestaurant(ingredientId, restaurantId).subscribe( resp => {
-      if(this.detailsData.ingredientRatings === null) {
+    this.webApi.addIngredientRatingToRestaurant(ingredientId, restaurantId).subscribe(resp => {
+      if (this.detailsData.ingredientRatings === null) {
         this.detailsData.ingredientRatings = new Array();
       }
       this.detailsData.ingredientRatings.push(resp as IngredientRating);
@@ -134,4 +140,12 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
   showIngredientAddForm() {
     this.addingIngredient = !this.addingIngredient; // toggle form
   }
+  canVote(id: number): boolean {
+    return this.votes.indexOf(id) === -1;
+  }
+
+  updateVoted() {
+    this.votes = this.voteLock.getVotedByRestaurantId(this.detailsData.id);
+  }
+
 }
