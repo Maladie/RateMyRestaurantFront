@@ -152,7 +152,7 @@
   right: 5px;
 }
 
-#button-add-food-type {
+.button-add-food-type {
   margin-left: 10px;
   font-family: 'Lobster', cursive;
   font-size: 16px;

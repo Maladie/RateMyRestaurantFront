@@ -95,7 +95,7 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
 
   vote(id: number, upVoted: boolean) {
     const restaurantId = this.detailsData.id;
-    this.webApi.voteOnIngredient(id, restaurantId, upVoted).subscribe(resp => {
+    this.webApi.voteOnIngredient(restaurantId, id, upVoted).subscribe(resp => {
       const index = this.detailsData.ingredientRatings.findIndex(rating => rating.ingredient.id === id);
       this.detailsData.ingredientRatings[index] = resp as IngredientRating;
       console.log('Vote success!  Rating id: ' + id + ' restaurantId: ' + this.detailsData.id);
@@ -108,17 +108,16 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
   }
 
   showFoodTypeAddForm() {
-    this.addingFoodType = true;
+    this.addingFoodType = !this.addingFoodType;
   }
 
-  newRating(upVoted: boolean) {
+  newRating() {
     this.addingIngredient = false; // hide form
     this.ingredientAddedLoading = false; // show loading animation
 
     const ingredientId = this.selectedValueNewRating;
     const restaurantId = this.detailsData.id;
-
-    this.webApi.addIngredientRatingToRestaurant(ingredientId, restaurantId, upVoted).subscribe( resp => {
+    this.webApi.addIngredientRatingToRestaurant(ingredientId, restaurantId).subscribe( resp => {
       if(this.detailsData.ingredientRatings === null) {
         this.detailsData.ingredientRatings = new Array();
       }
@@ -128,11 +127,11 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
       this.ingredientsLeft = this.ingredientsLeft.filter(item => this.detailsData.ingredientRatings.every(item2 => item2.ingredient.id !== item.id));
       this.ingredientAddedLoading = true; // hide animation after rating add
     }, err => {
-      console.log('Error occured while adding new rating to restaurant \n' + err)
-      ;this.ingredientAddedLoading = true; // hide animation after rating add
+      console.log('Error occured while adding new rating to restaurant \n' + err);
+      this.ingredientAddedLoading = true; // hide animation after rating add
     });
   }
   showIngredientAddForm() {
-    this.addingIngredient = true; // show form
+    this.addingIngredient = !this.addingIngredient; // toggle form
   }
 }

@@ -54,7 +54,7 @@
             <select class="custom-select" [(ngModel)]="selectedValue">
               <option *ngFor="let food of foodTypesLeft; let i= index;" value={{i}}>{{ food.name }}</option>
             </select>
-            <input id="button-add-food-type" [disabled]="selectedValue === undefined || selectedValue === null" type="button" class="btn btn-warning"
+            <input [disabled]="selectedValue === undefined || selectedValue === null" type="button" class="btn btn-warning button-add-food-type"
               value="Save" (click)="addFoodType()">
           </div>
         </div>
@@ -73,17 +73,7 @@
           <select class="custom-select" [(ngModel)]="selectedValueNewRating">
             <option *ngFor="let ing of ingredientsLeft" value={{ing.id}}>{{ ing.name }}</option>
           </select>
-          <span class="food-type-paragraph">vote: </span>
-          <div class="btn-group" data-toggle="buttons">
-            <label>
-              <a name="options" (click)="newRating(true)">
-                <img class="options" src="./assets/images/thumb-up-button.png"> </a>
-            </label>
-            <label>
-              <a name="options" class="new-rating-thumb" (click)="newRating(false)">
-                <img class="options" src="./assets/images/thumb-down-button.png"> </a>
-            </label>
-          </div>
+          <button [disabled]="selectedValueNewRating === undefined || selectedValueNewRating === null" class="btn btn-warning foodtype button-add-food-type" (click)="newRating()">Add ingredient rating</button>
         </div>
       </div>
       <div *ngIf="isAuthenticated()== false" class="text-center">
