@@ -16,7 +16,7 @@ export class WebApiObservableService {
     constructor(private _http: HttpClient) { }
 
     getPlaceWithId(id: string) {
-        return this._http.get(environment.serverEndpoint + '/places/' + id + '/details');
+        return this._http.get(environment.serverEndpoint + environment.restaurantsEndpoint + '/' + id);
     }
     ping() {
         this._http.get(environment.serverEndpoint + '/isLoggedIn').subscribe(ok => {
@@ -32,8 +32,8 @@ export class WebApiObservableService {
             .append('lng', position.lng.toString())
             .append('radius', radius.toString())
             .append('type', type ? type : 'bar');
-        return this._http.get(environment.serverEndpoint + environment.placesInRadiusEndpoint, { params: parameters });
-    }
+            return this._http.get(environment.serverEndpoint + environment.restaurantsAreaSearchEndpoint, { params: parameters });
+        }
     /**
      * Returns array of IngredientType on response
      */
@@ -54,7 +54,6 @@ export class WebApiObservableService {
      * @param placeDetails Place details to save in DB
      */
     savePlaceDetails(placeDetails: PlaceDetailsData) {
-
         return this._http.post(environment.serverEndpoint + environment.restaurantSaveEndpoint,
             JSON.stringify(placeDetails),
             { headers: this.JSONHeader }
@@ -70,7 +69,7 @@ export class WebApiObservableService {
     }
 
     getRestaurant(id: string) {
-        return this._http.get(environment.serverEndpoint + environment.restaurantEndpoint + id, { headers: this.JSONHeader });
+        return this._http.get(environment.serverEndpoint + environment.restaurantsEndpoint + id, { headers: this.JSONHeader });
     }
 
     addNewUserJSON(registerData: RegisterData) {
@@ -103,13 +102,14 @@ export class WebApiObservableService {
     getFoodTypes() {
         return this._http.get(environment.serverEndpoint + environment.restaurantFoodTypesEndpoint);
     }
-    voteOnIngredient(id: number, restaurantId: string, vote: boolean) {
-        const newVote = { 'ingredientId': id.toString(), 'restaurantId': restaurantId, 'good': vote ? 'true' : 'false' };
-        return this._http.post(environment.serverEndpoint + environment.ratingEndpoint, newVote, { headers: this.JSONHeader });
+    voteOnIngredient(restaurantId: string, ingredientId: number, vote: boolean) {
+        const path = environment.serverEndpoint + environment.restaurantsEndpoint + '/' + restaurantId + environment.ratingEndpoint + '/' + ingredientId;
+        const newVote = vote ? 'true' : 'false';
+        return this._http.put(path, newVote, { headers: this.JSONHeader });
     }
-    addIngredientRatingToRestaurant(ingredientId: number, restaurantId: string, vote: boolean) {
-        const newVote = { 'ingredientId': ingredientId.toString(), 'restaurantId': restaurantId, 'good': vote ? 'true' : 'false' };
-        return this._http.post(environment.serverEndpoint + environment.ratingEndpoint, newVote, { headers: this.JSONHeader });
+    addIngredientRatingToRestaurant(ingredientId: number, restaurantId: string) {
+        const path = environment.serverEndpoint + environment.restaurantsEndpoint + '/' + restaurantId + environment.ratingEndpoint;
+        return this._http.post(path, ingredientId, { headers: this.JSONHeader });
     }
 }
 

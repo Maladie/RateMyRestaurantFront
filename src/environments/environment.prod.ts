@@ -5,11 +5,11 @@ export const environment = {
    * Get all restaurants in radius
    * Required rarameters: lat, lng, radius: number
    */
-  placesInRadiusEndpoint: '/places/area', // /places?lat=&lng=&radius&type=
+  restaurantsAreaSearchEndpoint: '/restaurants/areaSearch', // /areaSearch?lat=&lng=&radius&type=
   /**
-   * Get place details. Complete endpoint: '/places/{placeId}/details'
+   * Get restaurant details. Complete endpoint: '/restaurants/{restaurantID}/'
    */
-  placesDetailsEndpoint: '/details', // /{placeId}/details
+  restaurantsEndpoint: '/restaurants',
   /**
    * Get all ingredients
    */
@@ -19,7 +19,7 @@ export const environment = {
    */
   ingredientAddEndpoint: '/ingredients/add',
  
-  ratingEndpoint: '/rating/rate', //  - string
+  ratingEndpoint: '/ingredientRatings', //  - string
   /**
    * Post NewUser credentials { username: '', password: ''} // more in the future...
    */
@@ -41,14 +41,13 @@ export const environment = {
    */
   restaurantSaveEndpoint: '/restaurants/save',
   /**
-   * Get restaurant id info. Use '/restaurant/{restaurant/placeId}'
-   */
-  restaurantEndpoint: '/restaurants/',
-  /**
    * WiP!
    * Get restaurants by foodType. Use '/restaurant/type/{foodType}'
    */
   restaurantByFoodEndpoint: '/restaurant/type/',
-
-  restaurantFoodTypesEndpoint: '/foodType'
+  /**
+   * Get all food types
+   */
+  restaurantFoodTypesEndpoint: '/foodTypes'
 };
+
