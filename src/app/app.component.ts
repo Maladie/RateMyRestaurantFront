@@ -8,17 +8,5 @@ import {AuthService} from './shared/auth.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor(private _route: Router, private _auth: AuthService) {  }
-
-  logout() {
-    this._auth.logout();
-  }
-
-  isLoggedIn() {
-    return this._auth.isAuthenticated();
-  }
-
-  getUsername() {
-    return sessionStorage.getItem('username');
-  }
+  constructor() {  }
 }

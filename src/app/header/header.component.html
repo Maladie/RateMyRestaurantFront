@@ -1,3 +1,35 @@
-<p>
-  header works!
-</p>
+<div id="header" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div id="logo">
+      <a [routerLink]="['/']">
+        <img src="https://image.flaticon.com/icons/png/512/541/541769.png" width="70px"
+             alt="RateMyRestaurantLogo">
+      </a>
+    </div>
+    <div id="ratemykebs">
+      <p>Rate My Kebstaurant!</p>
+    </div>
+    <div class="navbar-nav navbar-right" id="navbarRight">
+      <div>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" [hidden]="isLoggedIn() == false">
+                <span class="username-text">{{ getUsername() }}</span>
+              </li>
+          <li class="nav-item">
+            <div class="nav-item navbar-nav navbar-right" style="margin-right: 5px">
+              <img src="./assets/images/login.png" height="45px" id="login"/>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div *ngIf="isLoggedIn(); then thenBlock; else elseBlock">
+            </div>
+            <ng-template #thenBlock>
+              <a id="logoutButton" class="nav-link" (click)="logout()">Logout</a>
+            </ng-template>
+            <ng-template #elseBlock>
+              <a id="loginButton" class="nav-link" [routerLink]="['login']">Login</a>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
