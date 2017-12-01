@@ -26,14 +26,22 @@ export class WebApiObservableService {
         });
     }
 
-    getPlacesInRadius(position: LatLngLiteral, radius: number, type?: string) {
+    getPlacesInRadius(position: LatLngLiteral, radius: number) {
+        const parameters = new HttpParams()
+            .append('lat', position.lat.toString())
+            .append('lng', position.lng.toString())
+            .append('radius', radius.toString());
+        return this._http.get(environment.serverEndpoint + environment.restaurantsAreaSearchEndpoint, { params: parameters });
+    }
+
+    getPlacesInRadiusWithType(position: LatLngLiteral, radius: number, type: string) {
         const parameters = new HttpParams()
             .append('lat', position.lat.toString())
             .append('lng', position.lng.toString())
             .append('radius', radius.toString())
-            .append('type', type ? type : 'bar');
-            return this._http.get(environment.serverEndpoint + environment.restaurantsAreaSearchEndpoint, { params: parameters });
-        }
+            .append('foodType', type);
+        return this._http.get(environment.serverEndpoint + environment.restaurantsAreaSearchEndpoint, { params: parameters });
+    }
     /**
      * Returns array of IngredientType on response
      */
@@ -60,6 +68,12 @@ export class WebApiObservableService {
         );
     }
 
+    addFoodTypeToRestaurant(restaurantID: string, foodTypeName: FoodType) {
+        const foodType = foodTypeName;
+        return this._http.post(environment.serverEndpoint + environment.restaurantsEndpoint
+            + '/' + restaurantID + '/' + environment.restaurantFoodTypesEndpoint, foodType, { headers: this.JSONHeader })
+    }
+
     /**
      * Gets restaurants by ingredient name
      * @param ingredientName Ingredient name
@@ -74,10 +88,6 @@ export class WebApiObservableService {
 
     addNewUserJSON(registerData: RegisterData) {
         return this._http.post(environment.serverEndpoint + environment.registerEndpoint, registerData);
-    }
-
-    addNewUserForm(params: HttpParams) {
-        return this._http.post(environment.serverEndpoint + environment.registerToApiEndpoint, { params: params });
     }
 
     loginToWebApi(loginData: LoginData) {
