@@ -83,7 +83,7 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
     const deailsCopy = this.detailsData;
     this.detailsData = undefined; // show loading animation
 
-    this.webApi.savePlaceDetails(deailsCopy).subscribe(resp => {
+    this.webApi.addFoodTypeToRestaurant(deailsCopy.id, foodType).subscribe(resp => {
       this.detailsData = resp as PlaceDetailsData;
       // remove foodtype from foodtypesLeft if exists in detailsData.foodTypes array
       this.foodTypesLeft = this.foodTypesLeft.filter(item => this.detailsData.foodTypes.every(item2 => item2.id !== item.id));
