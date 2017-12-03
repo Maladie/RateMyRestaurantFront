@@ -1,83 +1,88 @@
-<div id="card" class="card box-shadow details-panel">
-  <div class="loader" [hidden]="detailsData && detailsData !== null">
+<mat-card id="card" class="details-panel">
+  <div class="loader" [hidden]="placeDetailsData && placeDetailsData !== null">
   </div>
-  <div *ngIf="detailsData">
-    <div class="card-header">
-      <h4 class="text-center">
-        <strong id="barname" class="details-name">{{ detailsData?.name }}</strong>
+  <div *ngIf="placeDetailsData">
+    <mat-card-header class="text-center">
+      <h4>
+        <strong id="barname">{{ placeDetailsData?.name }}</strong>
       </h4>
-      <button type="button" class="close close-button" (click)="closeDetails($event)" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
+      <button mat-icon-button class="close-button iconorange" (click)="closeDetails($event)">
+        <mat-icon class="mat-18">close</mat-icon>
       </button>
+    </mat-card-header>
+    <mat-card-content class="card-body card-content">
+      <hr>
+      <div class="containter-food-title">
+        <h3 class="food-type-paragraph">Here you can taste following types of food:
+          <hr class="style-one">
+        </h3>
+        <button mat-icon-button *ngIf="foodTypesLeft?.length >0" [hidden]="isAuthenticated()== false" class="button-no-outline food-button-add" (click)="showFoodTypeAddForm()">
+          <mat-icon class="mat-24 iconred">add_circle_outline</mat-icon>
+        </button>
     </div>
-    <div class="card-body">
-      <div>
-        <p class="food-type-paragraph">Here you can taste following types of food:</p>
-        <span *ngFor="let foodType of detailsData?.foodTypes" class="badge badge-warning food-type-bagde"> #{{ foodType.name }} </span>
+    <div class="container-food" *ngIf="addingFoodType">
+        <span class="foodtype-red" style="flex-grow: 2;">Choose&nbsp;food&nbsp;type:&nbsp;</span>
+        <select class="custom-select"  style="flex-grow: 3; min-width: 100px;" [(ngModel)]="selectedValue">
+          <option *ngFor="let food of foodTypesLeft; let i= index;" value={{i}}>{{ food.name }}</option>
+        </select>
+        <button mat-button [disabled]="selectedValue === undefined || selectedValue === null" class="iconred button-no-outline"
+          (click)="addFoodType()"  >
+          <mat-icon class="iconred" style="flex-grow: 1;">done</mat-icon>
+        </button>
+        <button mat-button class="iconred button-no-outline" (click)="showFoodTypeAddForm()"  style="flex-grow: 1;">
+          <mat-icon class="iconred">clear</mat-icon>
+        </button>
       </div>
       <div>
-        <hr class="separator">
+        <mat-chip-list>
+          <mat-chip color="accent" class="foodbadge" *ngFor="let foodType of placeDetailsData?.foodTypes">
+            #{{ foodType.name }}
+          </mat-chip>
+        </mat-chip-list>
       </div>
-      <!-- <div *ngIf="detailsData.ingredientRatings.length == 0; else showRatingsBlock" class="text-center">
-        <h5 id="norating">This restaurant has no ratings :( </h5>
-        <p class="authentication-info" *ngIf="!isAuthenticated()">Please login or register to leave your opinion</p>
-      </div> -->
-      <div #showRatingsBlock>
-        <p class="rating-title">Ingredient ratings: </p>
-        <div>
-          <div *ngFor="let rating of detailsData?.ingredientRatings; let i = index">
-            <span class="rating-text">{{ rating.ingredient.name }}:
-              <div class="rating-position">
-                <span class="likes">{{ rating.thumb.thumbsUp }}</span>
-                <a *ngIf="canVote(rating.ingredient.id) && isAuthenticated()" name="options" (click)="vote(rating.ingredient.id, true)">
-                  <img class="options" src="./assets/images/thumb-up-button.png"> </a>
-                  <span class="dislikes">{{ rating.thumb.thumbsDown }}</span>
-                <a *ngIf="isAuthenticated() && canVote(rating.ingredient.id)" name="options" (click)="vote(rating.ingredient.id, false)">
-                  <img class="options" src="./assets/images/thumb-down-button.png"> </a>
-              </div>
-            </span>
-          </div>
+      <br>
+      <mat-progress-bar *ngIf="!foodAddedLoading" mode="query"></mat-progress-bar>
+      <div class="rating-block" *ngIf="isAuthenticated() || placeDetailsData.ingredientRatings.length > 0 ">
+        <hr>
+        <div class="containter-rating-title">
+          <h2 mat-subheader class="rating-title">Ingredient ratings:
+            <hr class="style-one">
+          </h2>
+          <button mat-icon-button *ngIf="ingredientsLeft?.length >0" [hidden]="isAuthenticated()== false" class="button-no-outline rating-button-add" (click)="showIngredientAddForm()">
+            <mat-icon class="mat-24 iconblue">add_circle_outline</mat-icon>
+          </button>
         </div>
-      </div>
-      <div [hidden]="foodTypesLeft?.length ==0">
-        <div>
-          <hr class="separator">
-        </div>
-        <p id="paraghraph-missing-food">Missing food types?
-          <button [hidden]="isAuthenticated()== false" class="btn btn-warning" id="button-add-food" (click)="showFoodTypeAddForm()">Click to add</button>
-          <!-- TODO adding animation, button disabled if aleardy voted -->
-          <span [hidden]="foodAddedLoading == false" class="food-add-loading"></span>
-        </p>
-        <div *ngIf="addingFoodType">
-          <div>
-            <span class="foodtype">Choose food type: </span>
-            <select class="custom-select" [(ngModel)]="selectedValue">
-              <option *ngFor="let food of foodTypesLeft; let i= index;" value={{i}}>{{ food.name }}</option>
-            </select>
-            <input [disabled]="selectedValue === undefined || selectedValue === null" type="button" class="btn btn-warning button-add-food-type"
-              value="Save" (click)="addFoodType()">
-          </div>
-        </div>
-      </div>
-      <div>
-        <hr class="separator">
-      </div>
-      <div [hidden]="ingredientsLeft?.length ==0">
-        <p id="paraghraph-missing-ingredient">Missing ingredients ratings?
-          <button [hidden]="isAuthenticated()== false" class="btn btn-warning" id="button-add-ingredient" (click)="showIngredientAddForm()">Click to add</button>
-          <!-- TODO adding animation, button disabled if aleardy voted -->
-          <span [hidden]="ingredientAddedLoading == false" class="ingredient-add-loading"></span>
-        </p>
-        <div id="ingredient-form" *ngIf="addingIngredient">
-          <span class="foodtype">Choose ingredient: </span>
-          <select class="custom-select" [(ngModel)]="selectedValueNewRating">
+        <mat-progress-bar *ngIf="!ingredientAddedLoading" mode="query"></mat-progress-bar>
+        <div class="container-rating" *ngIf="addingIngredient">
+          <span class="foodtype-blue" style="flex-grow: 2;">Choose&nbsp;ingredient:</span>
+          <select class="custom-select" style="flex-grow: 3; min-width: 100px;" [(ngModel)]="selectedValueNewRating">
             <option *ngFor="let ing of ingredientsLeft" value={{ing.id}}>{{ ing.name }}</option>
           </select>
-          <button [disabled]="selectedValueNewRating === undefined || selectedValueNewRating === null" class="btn btn-warning foodtype button-add-food-type" (click)="newRating()">Add ingredient rating</button>
+          <button mat-button [disabled]="selectedValueNewRating === undefined || selectedValueNewRating === null" class="iconblu button-no-outline"
+            (click)="newRating()" style="flex-grow: 1;">
+            <mat-icon class="iconblue">done</mat-icon>
+          </button>
+          <button mat-button class="iconblu button-no-outline" (click)="showIngredientAddForm()" style="flex-grow: 1;">
+            <mat-icon class="iconblue" >clear</mat-icon>
+          </button>
+        </div>
+        <div *ngFor="let rating of placeDetailsData?.ingredientRatings; let i = index" class="container-rating">
+          <span class="rating-text rating-item">{{ rating.ingredient.name }}:
+          </span>
+          <div class="rating-item">
+            <span class="likes">{{ rating.thumb.thumbsUp }}</span>
+            <a *ngIf="canVote(rating.ingredient.id) && isAuthenticated()" name="options" (click)="vote(rating.ingredient.id, true)">
+              <img class="options" src="./assets/images/thumb-up-button.png"> </a>
+            <span class="dislikes">{{ rating.thumb.thumbsDown }}</span>
+            <a *ngIf="isAuthenticated() && canVote(rating.ingredient.id)" name="options" (click)="vote(rating.ingredient.id, false)">
+              <img class="options" src="./assets/images/thumb-down-button.png"> </a>
+          </div>
         </div>
       </div>
       <div *ngIf="isAuthenticated()== false" class="text-center">
+        <hr class="style-two">
         <p class="authentication-info">Login or register to rate, add missing food or ingredient ratings.</p>
       </div>
-    </div>
+    </mat-card-content>
   </div>
+</mat-card>

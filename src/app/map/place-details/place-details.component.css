@@ -3,9 +3,9 @@
   background-color: white;
   z-index: 2;
   position: absolute;
-  left: 15%;
-  top: 20px;
-  width: 600px;
+  left: 5%;
+  top: 5vh;
+  width: 520px;
   min-height: 300px;
 }
 
@@ -21,10 +21,18 @@
   color: #972407;
 }
 
-.box-shadow {
-  -webkit-box-shadow: 0px 2.5px 5px 0px rgba(50, 50, 50, 0.52);
-  -moz-box-shadow: 0px 2.5px 5px 0px rgba(50, 50, 50, 0.52);
-  box-shadow: 0px 2.5px 5px 0px rgba(50, 50, 50, 0.52)
+hr.style-one {
+  border: 0;
+  height: 1px;
+  background: rgb(252, 164, 0);
+  background-image: linear-gradient(to right, rgb(255, 242, 182), #942105, rgb(255, 242, 182));
+}
+
+hr.style-two {
+  border: 0;
+  height: 1px;
+  background: rgb(42, 177, 0);
+  background-image: linear-gradient(to right, rgb(255, 242, 182), #32d600, rgb(255, 242, 182));
 }
 
 .loader {
@@ -52,10 +60,6 @@
   }
 }
 
-.details-name {
-  text-decoration: underline;
-}
-
 .opinion-button {
   margin-top: 30px;
 }
@@ -72,15 +76,17 @@
 
 .likes {
   font-family: 'Lobster', cursive;
-  font-size: 20px;
+  font-size: 24px;
   margin-left: 10px;
+  margin-right: 10px;
   color: #00c41a;
 }
 
 .dislikes {
   font-family: 'Lobster', cursive;
-  font-size: 20px;
-  margin-left: 5px;
+  font-size: 24px;
+  margin-left: 10px;
+  margin-right: 5px;
   color: #c40e1c;
 }
 
@@ -88,6 +94,7 @@
   font-family: 'Lobster', cursive;
   font-size: 40px;
   color: #ffa50f;
+  text-decoration: underline;
 }
 
 #norating {
@@ -101,22 +108,41 @@
   background-image: url("https://www.transparenttextures.com/patterns/arches.png");
 }
 
+.card-content {
+  margin-top: 50px;
+}
+
 .foodtype {
   font-family: 'Lobster', cursive;
   font-size: 22px;
   color: #ffa50f;
 }
 
-.food-type-paragraph {
+.foodtype-blue {
+  font-family: 'Lobster', cursive;
+  font-size: 22px;
+  color: #4b3e9e;
+}
+
+.foodtype-red {
   font-family: 'Lobster', cursive;
   font-size: 22px;
   color: #9e2547;
 }
 
-.food-type-bagde {
-  font-size: 18px;
-  margin-right: 5px;
-  margin-bottom: 5px;
+.food-type-paragraph {
+  display: inline-block;
+  font-family: 'Lobster', cursive;
+  font-size: 24px;
+  color: #9e2547;
+}
+
+.foodbadge {
+  font-family: 'Lobster';
+  font-size: 20px;
+  color: white;
+  background-color: #ffa50f;
+  height: 32px;
 }
 
 .authentication-info {
@@ -125,15 +151,75 @@
   color: #34b90c;
 }
 
+.containter-food-title {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  justify-content: space-between !important;
+}
+
+.food-button-add {
+  top: -8px;
+}
+
+.food-title {
+  margin-bottom: 10px;
+}
+
+.container-food {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  justify-content: space-between !important;
+  margin-bottom: 10px;
+}
+
+.containter-rating-title {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: space-between !important;
+}
+
+.rating-button-add {
+  top: -8px;
+}
+
+.iconblue {
+  color: #4b3e9e;
+}
+
+.iconred {
+  color: #9e2547;
+}
+
+.container-rating {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: space-between !important;
+}
+
+.rating-item {
+  padding: 5px;
+}
+
+.rating-block {
+  margin-top: 20px;
+}
+
 .rating-title {
   display: inline-block;
-  font-family: 'Lobster', cursive;
-  font-size: 24px;
+  font-family: 'Lobster', cursive !important;
+  font-size: 24px !important;
   color: #4b3e9e;
-  text-decoration: underline;
 }
+
 .rating-text {
-  display: inline-block;
   font-family: 'Lobster', cursive;
   font-size: 24px;
   color: #ffa50f;
@@ -141,11 +227,6 @@
 
 .rating-text::first-letter {
   text-transform: uppercase;
-}
-
-.rating-position {
-  right: 0px;
-  display: inline;
 }
 
 .nok {
@@ -159,29 +240,39 @@
   color: #ffffff;
 }
 
-#paraghraph-missing-food {
+#paraghraph-missing {
   display: inline-block;
   font-family: 'Lobster', cursive;
   font-size: 24px;
   color: #ffa50f;
 }
-#paraghraph-missing-ingredient {
-  display: inline-block;
-  font-family: 'Lobster', cursive;
-  font-size: 24px;
-  color: #ffa50f;
-}
+
 #button-add-food {
-  color: white;
+  color: #ffa50f;
 }
+
 #button-add-ingredient {
-  color: white;
+  color: #ffa50f;
 }
 
 .new-rating-thumb {
   margin-left: 15px;
 }
+
 .custom-select {
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.iconorange {
+  color: #ffa50f !important;
+}
+
+.mat-36 {
+  font-size: 36px;
+}
+
+.button-no-outline {
+  outline: none !important;
+  /* right: 5px; */
 }
