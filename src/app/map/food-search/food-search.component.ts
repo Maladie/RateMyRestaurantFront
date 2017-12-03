@@ -19,7 +19,7 @@ export class FoodSearchComponent implements OnInit {
   searchControl: FormControl = new FormControl();
   filteredOptions: Observable<FoodType[]>;
   private position: LatLngLiteral;
-  private radius: number;
+  radius: number;
   private placePins: PlacePin[] = [];
   showSearchingInfo = false;
   constructor(private dataService: DataService, private webApi: WebApiObservableService) { }
@@ -38,7 +38,7 @@ export class FoodSearchComponent implements OnInit {
       this.allFoodTypes = resp as FoodType[];
     }, err => {
       console.log('Error while retreaving food types from DB');
-    })
+    });
   }
 
   filter(name: string): FoodType[] {
@@ -48,14 +48,14 @@ export class FoodSearchComponent implements OnInit {
   search() {
     // this.searchControl.
     let value = '';
-    if(this.searchControl.value !== null) {
-        // if search value is FoodType
-        if(this.searchControl.value.name !== undefined) {
-          value = this.searchControl.value.name;
-        } else { 
-          // or regular string
-          value = this.searchControl.value;
-        }
+    if (this.searchControl.value !== null) {
+      // if search value is FoodType
+      if (this.searchControl.value.name !== undefined) {
+        value = this.searchControl.value.name;
+      } else {
+        // or regular string
+        value = this.searchControl.value;
+      }
     }
     this.showSearchingInfo = true;
     this.webApi.getPlacesInRadiusWithType(this.position, this.radius, value).subscribe(resp => {
@@ -71,5 +71,9 @@ export class FoodSearchComponent implements OnInit {
   }
   displayFn(food) {
     return food instanceof String ? food : (food != null ? food.name : '');
+  }
+
+  displayRadius(): string {
+    return this.radius.toFixed(0);
   }
 }
