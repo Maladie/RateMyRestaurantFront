@@ -30,9 +30,10 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatAutocompleteModule, MatAutocomplete } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule, MatToolbarModule, MatProgressBarModule, MatListModule, MatChipsModule } from '@angular/material';
 import { FoodSearchComponent } from './map/food-search/food-search.component';
 import { DataService } from './shared/data.service';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,12 @@ import { DataService } from './shared/data.service';
     MatSelectModule,
     MatCardModule,
     MatAutocompleteModule,
-    MatInputModule
+    MatInputModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatProgressBarModule,
+    MatListModule,
+    MatChipsModule
   ],
   providers: [{
     provide: AuthService,
