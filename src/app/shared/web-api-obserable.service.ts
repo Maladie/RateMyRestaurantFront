@@ -71,7 +71,7 @@ export class WebApiObservableService {
     addFoodTypeToRestaurant(restaurantID: string, foodTypeName: FoodType) {
         const foodType = foodTypeName;
         return this._http.post(environment.serverEndpoint + environment.restaurantsEndpoint
-            + '/' + restaurantID + '/' + environment.restaurantFoodTypesEndpoint, foodType, { headers: this.JSONHeader })
+            + '/' + restaurantID + '/' + environment.restaurantFoodTypesEndpoint, foodType, { headers: this.JSONHeader });
     }
 
     /**
