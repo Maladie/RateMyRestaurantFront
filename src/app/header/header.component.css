@@ -1,0 +1,78 @@
+.box-shadow {
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(50, 50, 50, 0.52);
+  -moz-box-shadow: 0px 5px 10px 0px rgba(50, 50, 50, 0.52);
+  box-shadow: 0px 5px 10px 0px rgba(50, 50, 50, 0.52) !important
+}
+
+#logo {
+  width: 120px;
+  margin-left: 4%;
+}
+
+#ratemykebs {
+  font-family: 'Lobster', cursive;
+  font-size: 50px;
+  margin-left: 5px;
+  margin-top: 10px;
+  color: #ffa50f;
+}
+
+#header {
+  background-color: #a34441 !important;
+  background-image: url("https://www.transparenttextures.com/patterns/classy-fabric.png");
+  z-index: 10 !important;
+  min-height: 100px;
+}
+
+#navbarRight {
+  right: 20px;
+}
+
+#loginButton {
+  font-family: 'Lobster', cursive;
+  color: #ffa50f;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+#logoutButton {
+  font-family: 'Lobster', cursive;
+  color: #ffa50f;
+  font-size: 35px;
+  margin-top: 0px;
+  cursor: pointer;
+  margin-right: 10px
+}
+
+.username-text::first-letter {
+  text-transform: uppercase;
+}
+
+.username-text {
+  display: inline-block;
+  font-family: 'Lobster', cursive;
+  color: #ffa50f;
+  font-size: 40px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.fill-unused-space {
+  /* This fills the remaining space, by using flexbox.  */
+  /* Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.menu-button {
+  outline: none;
+  margin-right: 10px;
+}
+
+.material-icons.md-yellow {
+  color: #ffa50f;
+}
+
+.material-icons.md-36 {
+  font-size: 36px;
+  margin-top: -15px;
+}

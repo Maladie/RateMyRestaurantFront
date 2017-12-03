@@ -1,3 +1,39 @@
-<p>
-  header works!
-</p>
+<mat-toolbar id="header">
+  <div id="logo">
+    <a [routerLink]="['/']">
+      <img src="https://image.flaticon.com/icons/png/512/541/541769.png" width="70px" alt="RateMyRestaurantLogo">
+    </a>
+  </div>
+  <div id="ratemykebs" class="fill-unused-space">
+    <span>
+      <p>Rate My Kebstaurant!</p>
+    </span>
+  </div>
+  <div id="navbarRight">
+    <div>
+      <div>
+        <div *ngIf="isLoggedIn(); then thenBlock; else elseBlock">
+        </div>
+        <ng-template #thenBlock>
+          <button mat-icon-button matTooltip="User&nbsp;menu"  matTooltipPosition="below" class="menu-button" [matMenuTriggerFor]="menu">
+            <mat-icon class="md-36 md-yellow">menu</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" >
+            <button mat-menu-item (click)="logout()">
+              <span>Logout</span>
+              <mat-icon></mat-icon>
+            </button>
+          </mat-menu>
+          <span class="username-text">{{ getUsername() }}</span>
+        </ng-template>
+        <ng-template #elseBlock>
+          <div style="margin-right: 5px">
+            <a id="loginButton" class="nav-link" [routerLink]="['login']">
+              <span>Login</span>
+            </a>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>

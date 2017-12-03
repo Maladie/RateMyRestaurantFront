@@ -1,4 +1,4 @@
-import { PlacePin } from '../pin/placePin';
+import { PlacePin } from '../../shared/placePin';
 import { FoodType } from '../../shared/food-type';
 import { IngredientRating } from '../../shared/ingredient-rating';
 

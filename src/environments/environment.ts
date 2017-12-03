@@ -5,16 +5,16 @@
 
 export const environment = {
   production: false,
-  serverEndpoint: 'https://rate-my-restaurant-api.herokuapp.com:8080/',
+  serverEndpoint: 'https://rate-my-restaurant-api.herokuapp.com/',
   /**
    * Get all restaurants in radius
    * Required rarameters: lat, lng, radius: number
    */
-  placesInRadiusEndpoint: '/places/area', // /places?lat=&lng=&radius&type=
+  restaurantsAreaSearchEndpoint: '/restaurants/areaSearch', // /areaSearch?lat=&lng=&radius&type=
   /**
-   * Get place details. Complete endpoint: '/places/{placeId}/details'
+   * Get restaurant details. Complete endpoint: '/restaurants/{restaurantID}/'
    */
-  placesDetailsEndpoint: '/details', // /{placeId}/details
+  restaurantsEndpoint: '/restaurants',
   /**
    * Get all ingredients
    */
@@ -23,16 +23,14 @@ export const environment = {
    * Post new ingredient type { 'id': '', 'name': ''}
    */
   ingredientAddEndpoint: '/ingredients/add',
- 
-  ratingEndpoint: '/rating/rate', //  - string
+  /**
+   * IngredientRatings partial endpont - usage -> restaurants/{restaurantID}/ingredientRatings
+   */
+  ratingEndpoint: '/ingredientRatings', //  - string
   /**
    * Post NewUser credentials { username: '', password: ''} // more in the future...
    */
   registerEndpoint: '/register',
-  /**
-   * Post User credentials { username: '', password: ''}
-   */
-  registerToApiEndpoint: '/api/register', // in-development
   /**
    * Post Updated restaurant information (PlaceDetailsData)
    * {
@@ -46,14 +44,8 @@ export const environment = {
    */
   restaurantSaveEndpoint: '/restaurants/save',
   /**
-   * Get restaurant id info. Use '/restaurant/{restaurant/placeId}'
+   * Get all food types
    */
-  restaurantEndpoint: '/restaurants/',
-  /**
-   * WiP!
-   * Get restaurants by foodType. Use '/restaurant/type/{foodType}'
-   */
-  restaurantByFoodEndpoint: '/restaurant/type/',
-
-  restaurantFoodTypesEndpoint: '/foodType'
+  restaurantFoodTypesEndpoint: '/foodTypes'
 };
+

@@ -1,0 +1,23 @@
+.example-form {
+  min-width: 150px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+mat-raised-button:focus {
+  outline: none !important;
+}
+
+.button-background {
+  color: #ffb339 !important;
+  background-color: #a34441 !important;
+  font-size: 18px;
+  outline: none;
+}
+.radius {
+  margin-top: 10px;
+}

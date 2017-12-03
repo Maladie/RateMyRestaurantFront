@@ -21,6 +21,19 @@ import { HttpClient } from '@angular/common/http';
 import { EqualityValidatorDirective } from './shared/equality-validator.directive';
 import { PlaceDetailCardComponent } from './map/place-detail-card/place-detail-card.component';
 import { IngredientRating } from './shared/ingredient-rating';
+import { VotingLockService } from './shared/voting-lock.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatAutocompleteModule, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatInputModule, MatToolbarModule, MatProgressBarModule, MatListModule, MatChipsModule } from '@angular/material';
+import { FoodSearchComponent } from './map/food-search/food-search.component';
+import { DataService } from './shared/data.service';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -33,6 +46,7 @@ import { IngredientRating } from './shared/ingredient-rating';
     PlaceDetailsComponent,
     EqualityValidatorDirective,
     PlaceDetailCardComponent,
+    FoodSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +57,21 @@ import { IngredientRating } from './shared/ingredient-rating';
     AgmSnazzyInfoWindowModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAULrtLKbtbVG5vBESqFyJTqE0F_Ykb7xs'
-    })
+    }),
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatCardModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatProgressBarModule,
+    MatListModule,
+    MatChipsModule
   ],
   providers: [{
     provide: AuthService,
@@ -54,11 +82,19 @@ import { IngredientRating } from './shared/ingredient-rating';
     useClass: WebApiObservableService,
     deps: [HttpClient]
   },
-{
-  provide: HTTP_INTERCEPTORS,
-  useClass: TokenInterceptor,
-  multi: true
-}],
+  {
+    provide: VotingLockService,
+    useClass: VotingLockService
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  },
+  {
+    provide: DataService,
+    useClass: DataService
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,20 @@
+<mat-card >
+  <mat-card-content >
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input matInput type="text" placeholder="All food types or pick one" aria-label="Number" [formControl]="searchControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
+            {{ option.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+    <span>Searching radius: {{ displayRadius() }}m</span>
+    <button mat-raised-button class="btn-block button-background radius" (click)="search()">Search!</button>
+    <div>
+      <span *ngIf="showSearchingInfo" style="color:rgb(2, 76, 173);"><br>Searching...
+       <mat-progress-bar mode="query"></mat-progress-bar></span>
+    </div>
+  </mat-card-content>
+</mat-card>
