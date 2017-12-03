@@ -3,12 +3,18 @@ import { Router } from '@angular/router';
 import { Marker, InfoWindow, MouseEvent, LatLngLiteral, MapTypeStyle } from '@agm/core/services/google-maps-types';
 import { MouseEvent as Coords } from '@agm/core/map-types';
 import { environment } from '../../environments/environment';
-import { PlacePin } from './pin/placePin';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AgmSnazzyInfoWindow } from '@agm/snazzy-info-window';
 import { PlaceDetailsData } from './place-details/place-details-data';
 import { WebApiObservableService } from '../shared/web-api-obserable.service';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
+import { PlacePin } from '../shared/placePin';
+import { DataService } from '../shared/data.service';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -23,23 +29,23 @@ export class MapComponent implements OnInit, OnDestroy {
   @Input() lng = 19.025488;
   @Input() label = '';
   zoom = 17;
-  @Input() radius = 150;
+  @Input() radius = 120;
   places: PlacePin[];
-  detailsData: PlaceDetailsData;
+  placeDetailsData: PlaceDetailsData;
   showDetails = false;
   lastDetailsId;
   serverAvailable;
   subscription;
   mapStyle: MapTypeStyle[];
-  loading= false;
-  constructor(private _webApiObservable: WebApiObservableService) { }
+  loading = false;
+  constructor(private _webApiObservable: WebApiObservableService, private dataService: DataService) { }
 
   ngOnInit() {
-    // every 30sec. check if server available xD
-    const timer = TimerObservable.create(1000, 30000);
-    // this.subscription = timer.subscribe(t => {
-    //   this._webApiObservable.ping();
-    // });
+    // subscribe and notify about position and search radius
+    this.radiusChanged();
+    this.dataService.searchRarius.subscribe(radius => this.radius = radius);
+    this.dataService.placePins.subscribe(pins => this.places = pins);
+    this.userPinPositionChange();
     // reads and sets map style from /assets/json/map-style.json
     this._webApiObservable.getMapStyle().subscribe(resp => {
       this.mapStyle = resp as MapTypeStyle[];
@@ -52,10 +58,20 @@ export class MapComponent implements OnInit, OnDestroy {
     }
   }
 
+  radiusChanged() {
+    this.dataService.changeSearchRadius(this.radius);
+  }
+
+  userPinPositionChange() {
+    this.dataService.changeUserPinPosition({ lat: this.lat, lng: this.lng } as LatLngLiteral);
+    // resets result list while userPin position changes
+    this.dataService.changePlacePinsCollection([]);
+  }
+
   updateMapCenter(latLng: Coords) {
-    // MouseEvent from @agm/core/map-types
     this.lat = latLng.coords.lat;
     this.lng = latLng.coords.lng;
+    this.userPinPositionChange();
   }
   findPlaces() {
     this.loading = true;
@@ -78,8 +94,8 @@ export class MapComponent implements OnInit, OnDestroy {
     const placeId = this.places[i].id;
     if (placeId !== this.lastDetailsId) {
       this._webApiObservable.getPlaceWithId(placeId).subscribe(resp => {
-        this.detailsData = resp as PlaceDetailsData;
-        this.lastDetailsId = this.detailsData.id;
+        this.placeDetailsData = resp as PlaceDetailsData;
+        this.lastDetailsId = this.placeDetailsData.id;
         console.log(resp);
       }, err => {
         console.log(err);
@@ -92,18 +108,24 @@ export class MapComponent implements OnInit, OnDestroy {
   isAvailable() {
     return this._webApiObservable.serverStatus;
   }
-  infoEnter($event, window: InfoWindow ) {
+  infoEnter($event, window: InfoWindow) {
     window.open();
   }
-  infoOut($event, window: InfoWindow ) {
+  infoOut($event, window: InfoWindow) {
     window.close();
   }
   showPlaceDetails(i: number) {
-    console.log('details shown');
     this.showDetails = true;
-    if(this.detailsData && this.detailsData.id !== this.places[i].id) {
-      this.detailsData = null;
+    if (this.placeDetailsData && this.placeDetailsData.id !== this.places[i].id) {
+      this.placeDetailsData = null;
     }
     this.getAdditionalInfo(i);
   }
+
+  moveLocationMarker($event) {
+    this.lat = $event.coords.lat;
+    this.lng = $event.coords.lng;
+    this.userPinPositionChange();
+  }
+
 }

@@ -1,5 +1,5 @@
 agm-map {
-  height: 85vh;
+  height: 87vh;
 }
 
 #map {
@@ -18,22 +18,28 @@ agm-map {
   padding-bottom: 4px !important;
 }
 
-
 .parent-container {
   position: relative;
 }
 
-.server-available {
-  position: absolute;
-  max-width: 20px;
-  right: 20px;
-  top: 20px;
+mat-card.place-list {
+  padding: 10px;
 }
 
 .place-list {
-  max-height: 85vh;
-  overflow-y: scroll;
+  position: absolute;
+  max-height: 60vh;
+  overflow-y: auto;
+  top: 240px;
+  right: 30px;
+  width: 320px;
+  max-width: 350px;
 }
+
+.place-list-item {
+  max-width: 340px;
+}
+
 .loader {
   border: 16px solid #f3f3f3;
   border-top: 16px solid #972407;
@@ -44,22 +50,64 @@ agm-map {
   position: absolute;
   left: 45%;
   top: 40%;
-  z-index: 5;
+  z-index: 15;
 }
+
 .dimm {
   position: absolute;
-  height: 95%;
-  width: 98%;
-  background:rgba(0, 0, 0, 0.384);
-  z-index: 3;
+  height: 87vh;
+  width: 97.5%;
+  background: rgba(0, 0, 0, 0.384);
+  z-index: 10;
 }
+
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
 .search-button {
-  margin-top: 5px;
+  margin-top: 10px;
 }
+
 .infoTemplate {
   font-size: 8px !important;
+}
+
+.help {
+  position: absolute;
+  z-index: 2;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.help .material-icons {
+  color: #A34441;
+  cursor: pointer;
+}
+
+:hover.help span {
+  transform: scale(1.2, 1.2);
+}
+
+.material-icons.md-48 {
+  font-size: 48px;
+}
+
+::ng-deep .mat-tooltip {
+  font-size: 12px;
+  background-color: #A34441;
+}
+
+.search-food {
+  position: absolute;
+  z-index: 1;
+  right: 30px;
+  top: 30px;
+  min-width: 320px;
+  max-width: 350px;
 }
