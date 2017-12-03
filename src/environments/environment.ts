@@ -23,16 +23,14 @@ export const environment = {
    * Post new ingredient type { 'id': '', 'name': ''}
    */
   ingredientAddEndpoint: '/ingredients/add',
- 
+  /**
+   * IngredientRatings partial endpont - usage -> restaurants/{restaurantID}/ingredientRatings
+   */
   ratingEndpoint: '/ingredientRatings', //  - string
   /**
    * Post NewUser credentials { username: '', password: ''} // more in the future...
    */
   registerEndpoint: '/register',
-  /**
-   * Post User credentials { username: '', password: ''}
-   */
-  registerToApiEndpoint: '/api/register', // in-development
   /**
    * Post Updated restaurant information (PlaceDetailsData)
    * {
@@ -45,11 +43,6 @@ export const environment = {
    * }
    */
   restaurantSaveEndpoint: '/restaurants/save',
-  /**
-   * WiP!
-   * Get restaurants by foodType. Use '/restaurant/type/{foodType}'
-   */
-  restaurantByFoodEndpoint: '/restaurant/type/',
   /**
    * Get all food types
    */
