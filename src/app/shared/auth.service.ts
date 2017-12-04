@@ -8,11 +8,12 @@ import { LoginData } from '../login/login-data';
 import { Observable } from 'rxjs/Observable';
 import { ResponseInfo } from './response-info';
 import { resolve, reject } from 'q';
+import { VotingLockService } from './voting-lock.service';
 
 @Injectable()
 export class AuthService {
   val: ResponseInfo = new ResponseInfo();
-  constructor(private _router: Router, private _webApiObservable: WebApiObservableService) {
+  constructor(private voteLock: VotingLockService, private _router: Router, private _webApiObservable: WebApiObservableService, ) {
   }
   public getToken(): string {
     const sessionToken = JSON.parse(sessionStorage.getItem('token')) as SessionToken; // Parsing to obj
@@ -55,6 +56,7 @@ export class AuthService {
     sessionStorage.setItem('token', JSON.stringify(sessionStorage)); // convert to string JSON
   }
   public logout() {
+    this.voteLock.clearVotingMap();
     sessionStorage.removeItem('token');
   }
 

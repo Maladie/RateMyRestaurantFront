@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -33,7 +32,7 @@ import { MatAutocompleteModule, MatAutocomplete } from '@angular/material/autoco
 import { MatInputModule, MatToolbarModule, MatProgressBarModule, MatListModule, MatChipsModule } from '@angular/material';
 import { FoodSearchComponent } from './map/food-search/food-search.component';
 import { DataService } from './shared/data.service';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -46,7 +45,7 @@ import {MatMenuModule} from '@angular/material/menu';
     PlaceDetailsComponent,
     EqualityValidatorDirective,
     PlaceDetailCardComponent,
-    FoodSearchComponent
+    FoodSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,28 +72,17 @@ import {MatMenuModule} from '@angular/material/menu';
     MatListModule,
     MatChipsModule
   ],
-  providers: [{
-    provide: AuthService,
-    useClass: AuthService,
-    deps: [WebApiObservableService]
-  }, {
-    provide: WebApiObservableService,
-    useClass: WebApiObservableService,
-    deps: [HttpClient]
-  },
-  {
-    provide: VotingLockService,
-    useClass: VotingLockService
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  },
-  {
-    provide: DataService,
-    useClass: DataService
-  }],
+  providers: [
+    VotingLockService,
+    AuthService,
+    WebApiObservableService,
+    DataService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

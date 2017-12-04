@@ -3,6 +3,7 @@ import { NG_VALIDATORS, AbstractControl } from '@angular/forms';
 import { Validator } from '@angular/forms/src/directives/validators';
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: '[validateEqual][formControlName]',
   providers: [{ provide: NG_VALIDATORS, useExisting: EqualityValidatorDirective, multi: true }]
 })
@@ -26,14 +27,14 @@ export class EqualityValidatorDirective implements Validator {
     if (e && v !== e.value && !this.isReverse) {
       return {
         validateEqual: true
-      }
+      };
     }
 
     // value equal and reverse
     if (e && v === e.value && this.isReverse) {
       delete e.errors['validateEqual'];
-      if (!Object.keys(e.errors).length){
-         e.setErrors(null);
+      if (!Object.keys(e.errors).length) {
+        e.setErrors(null);
       }
     }
 

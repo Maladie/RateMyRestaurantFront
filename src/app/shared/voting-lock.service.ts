@@ -28,4 +28,7 @@ export class VotingLockService {
         const array = this.voteMap.get(restaurantId);
         return array !== undefined ? array : new Array();
     }
+    public clearVotingMap(): void {
+        this.voteMap = new Map<string, Array<number>>();
+    }
 }
