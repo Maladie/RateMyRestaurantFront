@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -30,10 +29,10 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatAutocompleteModule, MatAutocomplete } from '@angular/material/autocomplete';
-import { MatInputModule, MatToolbarModule, MatProgressBarModule, MatListModule, MatChipsModule } from '@angular/material';
+import { MatInputModule, MatToolbarModule, MatProgressBarModule, MatListModule, MatChipsModule, MatDialogModule } from '@angular/material';
 import { FoodSearchComponent } from './map/food-search/food-search.component';
 import { DataService } from './shared/data.service';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -46,7 +45,7 @@ import {MatMenuModule} from '@angular/material/menu';
     PlaceDetailsComponent,
     EqualityValidatorDirective,
     PlaceDetailCardComponent,
-    FoodSearchComponent
+    FoodSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,30 +70,24 @@ import {MatMenuModule} from '@angular/material/menu';
     MatMenuModule,
     MatProgressBarModule,
     MatListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDialogModule
   ],
-  providers: [{
-    provide: AuthService,
-    useClass: AuthService,
-    deps: [WebApiObservableService]
-  }, {
-    provide: WebApiObservableService,
-    useClass: WebApiObservableService,
-    deps: [HttpClient]
-  },
-  {
-    provide: VotingLockService,
-    useClass: VotingLockService
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  },
-  {
-    provide: DataService,
-    useClass: DataService
-  }],
+  providers: [
+    VotingLockService,
+    AuthService,
+    WebApiObservableService,
+    DataService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
+  entryComponents: [
+    LoginComponent,
+    RegisterComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

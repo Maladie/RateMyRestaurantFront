@@ -6,10 +6,8 @@ import { MapComponent } from './map/map.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'map', component: MapComponent },
-  { path: 'register', component: RegisterComponent }
 ];
 
 @NgModule({

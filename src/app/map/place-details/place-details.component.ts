@@ -55,9 +55,7 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
       this.foodTypesLeft = resp as FoodType[];
       if (this.placeDetailsData.foodTypes !== null) {
         // TODO
-        console.log(this.placeDetailsData.foodTypes.length + ' data');
         this.foodTypesLeft = this.foodTypesLeft.filter(item => this.placeDetailsData.foodTypes.every(item2 => item2.id !== item.id));
-        console.log(this.foodTypesLeft.length);
       }
     }, err => {
       console.log('Error while retrieving food types: ' + err);
@@ -146,5 +144,4 @@ export class PlaceDetailsComponent implements OnInit, OnChanges {
   updateVoted() {
     this.votes = this.voteLock.getVotedByRestaurantId(this.placeDetailsData.id);
   }
-
 }

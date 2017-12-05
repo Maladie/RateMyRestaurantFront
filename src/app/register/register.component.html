@@ -1,65 +1,49 @@
-<div class="register-container">
-  <div class="container">
-    <div class="mx-auto col-md-4 register-panel card box-shadow">
-      <div *ngIf="result?.code == 0" class="alert alert-success" role="alert">
-        Registration successful!
-      </div>
-      <div *ngIf="result?.code > 0" class="alert alert-danger" role="alert">
-        Registration falied! Cause: {{ result.desc }}
-      </div>
-      <form (ngSubmit)="onSubmit()" [formGroup]="myform">
-        <div class="form-group">
-          <!-- Not Working!!! [ngClass]="{
-              'is-invalid': username.invalid && (username.dirty || username.touched),
-              'is-valid': username.valid && (username.dirty || username.touched)
-            }" -->
-          <label>Username</label>
-          <input type="text" class="form-control" formControlName="username" required>
-          <div class="form-control-feedback" *ngIf="username.errors && (username.dirty || username.touched)">
-            <small *ngIf="username.errors?.required">Username is required</small>
-            <small *ngIf="username.errors?.minlength">Username must be min. 4 characters long, we need another {{username.errors?.minlength.requiredLength - username.errors?.minlength.actualLength}}
-              characters </small>
-          </div>
-        </div>
-        <div class="form-group">
-          <!-- [ngClass]="{
-              'has-danger': password.invalid && (password.dirty || password.touched),
-              'has-success': password.valid && (password.dirty || password.touched)}" -->
-          <label>Password</label>
-          <input type="password" class="form-control" formControlName="password" validateEqual="confirmPassword" reverse="true" required>
-          <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
-            <small *ngIf="password.errors?.required">Password is required</small>
-            <small *ngIf="password.errors?.minlength">Password must be 8 characters long, we need another {{password.errors?.minlength.requiredLength - password.errors?.minlength.actualLength}}
-              characters </small>
-          </div>
-        </div>
-        <div class="form-group">
-          <!-- [ngClass]="{
-              'has-danger': confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched),
-              'has-success': confirmPassword.valid && (confirmPassword.dirty || confirmPassword.touched)}" -->
-          <label>Retype Password</label>
-          <input type="password" class="form-control" name="confirmPassword" formControlName="confirmPassword" validateEqual="password"
-            required>
-          <div class="form-control-feedback" *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
-            <small *ngIf="confirmPassword.errors?.required">Password is required</small>
-            <small *ngIf="confirmPassword.errors?.minlength">Password must be 8 characters long, we need another {{confirmPassword.errors?.minlength.requiredLength - confirmPassword.errors?.minlength.actualLength}}
-              characters </small>
-            <small *ngIf="confirmPassword.errors?.validateEqual">Password doesn's match</small>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="form-check">
-            <label class="form-check-label">
-              <input formControlName="autologin" class="form-check-input" type="checkbox"> Autologin
-            </label>
-          </div>
-        </div>
-        <input type="submit" class="btn btn-success btn-block" value="Register" [disabled]="myform.invalid">
-        <!-- <pre>{{myform.value | json}}</pre> -->
-      </form>
-      <div class="mx-auto">
-        <button class="btn btn-info btn-block" routerLink="/">Back to Home Page</button>
+<div>
+  <mat-progress-bar *ngIf="processingAnim" mode="query"></mat-progress-bar>
+  <mat-progress-bar *ngIf="processingAnimLogin" mode="query" color="accent"></mat-progress-bar>
+  <div *ngIf="result?.code === 200" class="alert alert-success" role="alert">
+    Registration successful!
+  </div>
+  <div *ngIf="result?.code !== -1 && result.code !== 200" class="alert alert-danger" role="alert">
+    {{ result.desc }}
+  </div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="myform">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-control" formControlName="username" required>
+      <div class="form-control-feedback" *ngIf="username.errors && (username.dirty || username.touched)">
+        <small *ngIf="username.errors['required']">Username is required</small>
+        <small *ngIf="username.errors['minlength']">Username must be min. 4 characters long, we need another {{username.errors["minlength"].requiredLength - username.errors["minlength"].actualLength}}
+          characters </small>
       </div>
     </div>
-  </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" class="form-control" formControlName="password" validateEqual="confirmPassword" reverse="true" required>
+      <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
+        <small *ngIf="password.errors['required']">Password is required</small>
+        <small *ngIf="password.errors['minlength']">Password must be 8 characters long, we need another {{password.errors["minlength"].requiredLength - password.errors["minlength"].actualLength}}
+          characters </small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Retype Password</label>
+      <input type="password" class="form-control" name="confirmPassword" formControlName="confirmPassword" validateEqual="password"
+        required>
+      <div class="form-control-feedback" *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
+        <small *ngIf="confirmPassword.errors['required']">Password is required</small>
+        <small *ngIf="confirmPassword.errors['minlength']">Password must be 8 characters long, we need another {{confirmPassword.errors['minlength'].requiredLength - confirmPassword.errors['minlength'].actualLength}}
+          characters </small>
+        <small *ngIf="confirmPassword.errors['validateEqual']">Password doesn's match</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input formControlName="autologin" class="form-check-input" type="checkbox"> Autologin
+        </label>
+      </div>
+    </div>
+    <input type="submit" class="btn btn-success btn-block" value="Register" [disabled]="myform.invalid">
+  </form>
 </div>

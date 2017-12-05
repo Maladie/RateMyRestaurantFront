@@ -28,7 +28,7 @@
         </ng-template>
         <ng-template #elseBlock>
           <div style="margin-right: 5px">
-            <a id="loginButton" class="nav-link" [routerLink]="['login']">
+            <a id="loginButton" class="nav-link" (click)="login()"> 
               <span>Login</span>
             </a>
           </div>
