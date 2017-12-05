@@ -1,7 +1,7 @@
 <div class="home-container">
   <div class="container">
     <div class="mx-auto home-panel col-md-4 card box-shadow">
-      <input *ngIf="isLoggedIn()==false" type="button" class="btn btn-warning btn-block" value="Register" [routerLink]="['register']">
+      <input *ngIf="isLoggedIn()==false" type="button" class="btn btn-warning btn-block" value="Register" (click)="register()">
       <input type="button" class="btn btn-success btn-block" value="Start searching" [routerLink]="['map']">
     </div>
   </div>
