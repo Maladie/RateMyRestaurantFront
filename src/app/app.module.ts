@@ -84,6 +84,10 @@ import { MatMenuModule } from '@angular/material/menu';
       multi: true
     }
   ],
+  entryComponents: [
+    LoginComponent,
+    RegisterComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
