@@ -29,7 +29,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatAutocompleteModule, MatAutocomplete } from '@angular/material/autocomplete';
-import { MatInputModule, MatToolbarModule, MatProgressBarModule, MatListModule, MatChipsModule } from '@angular/material';
+import { MatInputModule, MatToolbarModule, MatProgressBarModule, MatListModule, MatChipsModule, MatDialogModule } from '@angular/material';
 import { FoodSearchComponent } from './map/food-search/food-search.component';
 import { DataService } from './shared/data.service';
 import { MatMenuModule } from '@angular/material/menu';
@@ -70,7 +70,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatMenuModule,
     MatProgressBarModule,
     MatListModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDialogModule
   ],
   providers: [
     VotingLockService,
