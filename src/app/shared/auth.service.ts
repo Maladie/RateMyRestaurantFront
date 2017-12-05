@@ -6,6 +6,7 @@ import { WebApiObservableService } from './web-api-obserable.service';
 import { HttpHeaders } from '@angular/common/http';
 import { LoginData } from '../login/login-data';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromPromise';
 import { ResponseInfo } from './response-info';
 import { resolve, reject } from 'q';
 import { VotingLockService } from './voting-lock.service';
@@ -23,19 +24,24 @@ export class AuthService {
     return '';
   }
   public loginUser(loginData: LoginData) {
-    return new Promise((resolve, reject) => {
-      this._webApiObservable.loginToWebApi(loginData).subscribe(resp => {
-        const token = this.parseTokenData();
-        const expirationTime = this.parseExpirationTime(resp.headers);
-        const tokenInfo = new TokenInfo(token, expirationTime);
-        this.saveToken(tokenInfo);
-        console.log('login ok');
-        resolve(resp.body);
-      }, err => {
-        console.log('login err: ' + JSON.stringify(err));
-        reject(err);
+    const result =
+      new Promise<ResponseInfo>((resolve, reject) => {
+        this._webApiObservable.loginToWebApi(loginData).subscribe(resp => {
+          const token = this.parseTokenData();
+          const expirationTime = this.parseExpirationTime(resp.headers);
+          const tokenInfo = new TokenInfo(token, expirationTime);
+          this.saveToken(tokenInfo);
+
+          sessionStorage.setItem('username', loginData.username);
+          console.log('login ok');
+          resolve(resp.body);
+        }, err => {
+          console.log('login err: ' + JSON.stringify(err));
+          sessionStorage.removeItem('username');
+          reject(err);
+        });
       });
-    });
+    return Observable.fromPromise(result);
   }
   clearResponse() {
     this.val = null;
@@ -53,7 +59,7 @@ export class AuthService {
   public saveToken(tokenInfo: TokenInfo) {
     const expireDate = new Date().getTime() + (1000 * tokenInfo.expires_in);
     const sessionToken = new SessionToken(expireDate, tokenInfo.access_token);
-    sessionStorage.setItem('token', JSON.stringify(sessionStorage)); // convert to string JSON
+    sessionStorage.setItem('token', JSON.stringify(sessionStorage));
   }
   public logout() {
     this.voteLock.clearVotingMap();
